@@ -185,12 +185,15 @@
   var userinfo = <?!= userinfo ?>;
   var opcmenu = <?!= opcmenu ?>;
   var url = <?= ScriptApp.getService().getUrl() ?>;
+  var data_agencia = <?!= agencia ?>;
+
   var apps = new Vue({
     el: '#app',
     data: {
       url: url,
       userinfo: userinfo,
       opcmenu: opcmenu,
+      dataAgencia: data_agencia
     },
     watch: {
     },
@@ -199,6 +202,7 @@
     created: function () {
       console.log("userinfo",this.userinfo);
       console.log("opcmenu",this.opcmenu);
+      console.log("dataAgencia",this.dataAgencia);
     },
     computed: {
     },

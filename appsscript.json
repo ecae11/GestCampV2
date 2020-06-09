@@ -28,7 +28,7 @@
     ]
   },
   "webapp": {
-    "access": "ANYONE",
+    "access": "DOMAIN",
     "executeAs": "USER_ACCESSING"
   },
   "exceptionLogging": "STACKDRIVER",

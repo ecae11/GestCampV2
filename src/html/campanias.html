@@ -1,0 +1,753 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <base target="_self">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Gestor de Campañas</title>
+
+    <!-- Custom fonts for this template-->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/css/themes/all-themes.css" rel="stylesheet" />
+</head>
+
+<body class="theme-indigo">
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="preloader">
+            <div class="spinner-layer pl-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+        <p>Cargando...</p>
+    </div>
+</div>
+<!-- #END# Page Loader -->
+<!-- Overlay For Sidebars -->
+<div class="overlay"></div>
+<!-- #END# Overlay For Sidebars -->
+<!-- Search Bar -->
+<!-- #END# Search Bar -->
+<!-- Top Bar -->
+<nav class="navbar">
+    <div class="container-fluid" style="background-color: #0060b0">
+        <div class="navbar-header">
+            <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+            <a href="javascript:void(0);" class="bars"></a>
+            <a class="navbar-brand" href="#" style="padding: 10px 15px">
+                <img src="https://www.cajapiura.pe/images/logo.png" style="width:150px;height:30px" >
+            </a>
+        </div>
+
+    </div>
+</nav>
+<!-- #Top Bar -->
+<div id="app">
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="image">
+                    <img src="https://gurayyarar.github.io/AdminBSBMaterialDesign/images/user.png" width="48" height="48" alt="User" />
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userinfo.EMPNOM}} {{userinfo.EMPAPP}}</div>
+                    <div class="email">{{userinfo.CORREO}}</div>
+                    <div class="btn-group user-helper-dropdown">
+                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- #User Info -->
+            <!-- Menu -->
+            <div class="menu">
+                <ul class="list">
+                    <li class="header">MENÚ</li>
+                    <li v-for="opc in opcmenu ">
+                        <a :href="url + '?v=' + opc.URL" class="menu-toggle">
+                            <i class="material-icons">{{opc.ICON}}</i>
+                            <span>{{opc.OPCMENU}}</span>
+                        </a>
+                    </li>
+                    <li class="header">ESTADÍSTICAS</li>
+
+                </ul>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">
+                    &copy; 2020 <a href="javascript:void(0);"> Caja Piura</a>.
+                </div>
+                <div class="version">
+                    <b>Version: </b> 1.0.5
+                </div>
+            </div>
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+
+        <!-- #END# Right Sidebar -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2>CAMPAÑAS</h2>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"  v-for="camp in campanias" v-if = "camp.STATUS == '1'" >
+                    <div class="info-box-4 hover-zoom-effect" style="cursor: pointer" @click="selectCampania(camp)">
+                        <div class="icon">
+                            <i class="material-icons col-indigo">face</i>
+                        </div>
+                        <div class="content">
+                            <div class="text font-bold">{{camp.TITULO_CAMPANA}}</div>
+                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20">{{camp.DATA.length}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" v-if="campaniaSelected != null">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                {{campaniaSelected.TITULO_CAMPANA}}
+                            </h2>
+                        </div>
+                        <div class="body table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th @click="sort('CODIGOCLIENTE')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  CODIGO </th>
+                                    <th @click="sort('AUTORIZA')" style="cursor: pointer"> <i class="fa fa-sort" aria-hidden="true"></i>  AUTORIZA</th>
+                                    <th @click="sort('NOMBRECOMPLETO')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  NOMBRE COMPLETO</th>
+                                    <th @click="sort('DOCUMENTO')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i> DNI/RUC</th>
+                                    <th @click="sort('TELEFONO')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  TELEFONO</th>
+                                    <th @click="sort('FULTIMA')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  ULTIMO CONTACTO</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!--<tr v-for="(detalle,i) in direct.directorioWrapperList" > -->
+                                <tr v-for="(detalle,i) in dataPaginada" >
+                                    <td>{{detalle.CODIGOCLIENTE}}</td>
+                                    <td>{{detalle.AUTORIZA}}</td>
+                                    <td>{{detalle.NOMBRECOMPLETO}}</td>
+                                    <td>{{detalle.DOCUMENTO}}</td>
+                                    <td>{{detalle.TELEFONO}}</td>
+                                    <td>{{detalle.FULTIMA}}</td>
+                                    <td>
+                                        <a class="btn bg-orange btn-circle waves-effect waves-circle waves-float" href="#"  data-toggle="modal" data-target="#infoUserModal"  @click="showModal(detalle)" >
+                                            <i class="material-icons">create</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p>
+                                <button   :class="['btn', currentPage==n ? 'btn-primary' : 'btn-default' ]" v-if="currentPage" :disabled="currentPage==n ? true : false"  v-for="n in numOfPages" @click.prevent="setPage(n)">{{n}}</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="infoUserModal" tabindex="-1" role="dialog" style="display: none;">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="largeModalLabel">{{clienteSelected.NOMBRECOMPLETO}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#home_with_icon_title" data-toggle="tab" aria-expanded="false">
+                                            <i class="material-icons">face</i> Datos del Cliente
+                                        </a>
+                                    </li>
+                                    <li role="presentation" class="">
+                                        <a href="#profile_with_icon_title" data-toggle="tab" aria-expanded="false">
+                                            <i class="material-icons">credit_card</i> Situación Crediticia
+                                        </a>
+                                    </li>
+                                    <li role="presentation" >
+                                        <a href="#messages_with_icon_title" data-toggle="tab" aria-expanded="true">
+                                            <i class="material-icons">contact_phone</i> Reg. LLamadas
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade active in" id="home_with_icon_title">
+                                        <div class="row clearfix">
+                                            <div class="col-md-2 col-sm-3 col-xs-12">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>CODCLI:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.CODIGOCLIENTE" placeholder="CODIGOCLIENTE"  disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-3 col-xs-12">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>APELLIDOS Y NOMBRES:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.NOMBRECOMPLETO" placeholder="NOMBRECOMPLETO"  disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-3 col-xs-12 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>DEPARTAMENTO:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.DEPARTAMENTO"  placeholder="DEPARTAMENTO" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-3 col-xs-12 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>PROVINCIA:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.PROVINCIA"  placeholder="PROVINCIA" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-3 col-xs-12 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>DISTRITO:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.DISTRITO"  placeholder="DISTRITO" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-3 col-xs-12 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>ZONA:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.ZONA"  placeholder="ZONA" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-3 col-xs-12 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>DIRECCION:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.DIRECCION"  placeholder="DIRECCION" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                                        <div class="row clearfix">
+                                            <div class="col-md-3 col-sm-3 col-xs-3 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>CALIF0:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.CALIF0"  placeholder="CALIF0" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>CALIF1:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.CALIF1"  placeholder="CALIF1" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>NRO. IFIS:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.NROIFI"  placeholder="NROIFI" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>DEUDA DIRECTA:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.DEUDADIRECTA"  placeholder="DEUDADIRECTA" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-3 col-xs-12 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>ACTIVIDAD ESCENCIAL:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.ACTIVIDAD_ESENCIAL"  placeholder="ACTIVIDAD_ESENCIAL" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="messages_with_icon_title">
+                                      <div class="row clearfix">
+                                          <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>TELEFONO:</label>
+                                                      <input type="text" class="form-control" v-model="clienteSelected.TELEFONO"  placeholder="TELEFONO" disabled>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4 col-sm-3 col-xs-12 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>ULTIMA LLAMADA:</label>
+                                                      <input type="text" class="form-control" :value="calFULTIMA" disabled>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4 col-sm-3 col-xs-12 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>ULTIMA RESPUESTA:</label>
+                                                      <input type="text" class="form-control" :value="calRULTIMA" disabled>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>1° LLAMADA:</label>
+                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO1" >
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>1° RESPUESTA:</label>
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO1">
+                                                          <option disabled value="">Seleccione una opción</option>
+                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>2° LLAMADA:</label>
+                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO2"  >
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>2° RESPUESTA:</label>
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO2">
+                                                          <option disabled value="">Seleccione una opción</option>
+                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>3° LLAMADA:</label>
+                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO3" >
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>3° RESPUESTA:</label>
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO3">
+                                                          <option disabled value="">Seleccione una opción</option>
+                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>4° LLAMADA:</label>
+                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO4" >
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>4° RESPUESTA:</label>
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO4">
+                                                          <option disabled value="">Seleccione una opción</option>
+                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>5° LLAMADA:</label>
+                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO5"  >
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>5° RESPUESTA:</label>
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO5">
+                                                          <option disabled value="">Seleccione una opción</option>
+                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-12 col-sm-12 col-xs-12 " >
+                                              <div class="form-group form-float">
+                                                  <div class="form-line">
+                                                      <label>COMENTARIOS: </label>
+                                                      <textarea class="form-control" v-model="clienteSelected.COMENTARIOS"></textarea>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="btn-save-llamada" type="button" class="btn bg-teal waves-effect" @click="registrarLlamada" :disabled="process">
+                                    <i class="material-icons" v-if="!process">check</i>
+                                    <span v-if="!process">Guardar</span>
+                                    <span v-if="process">Enviando</span>
+                                    <i class="material-icons" v-if="process">hdr_strong</i>
+                                </button>
+                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                    <i class="material-icons">close</i>
+                                    <span >Cerrar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<!-- Jquery Core Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap/js/bootstrap.js"></script>
+
+<!-- Slimscroll Plugin Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+<!-- Bootstrap Notify Plugin Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap-notify/bootstrap-notify.js"></script>
+
+<!-- Waves Effect Plugin Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/node-waves/waves.js"></script>
+
+<!-- Custom Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/js/admin.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+<script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+  //
+  var campanias = <?!= campanias ?>;
+  var opc_resultadoContacto = <?!=opcresultcontacto ?>;
+  var userinfo = <?!= userinfo ?>;
+  var opcmenu = <?!= opcmenu ?>;
+  var url = <?= ScriptApp.getService().getUrl() ?>;
+
+  var apps = new Vue({
+    el: '#app',
+    data: {
+      url: url,
+      userinfo: userinfo,
+      opcmenu: opcmenu,
+      msjSnackbar:{
+        mensaje:'',
+        tipo:'' //primary,info,success,warning,danger
+      },
+      campanias: campanias,
+      opcResultadoContacto:opc_resultadoContacto,
+      currentSort:'CODIGOCLIENTE',
+      currentSortDir:'desc',
+      buscarRow:"",
+      currentPage: 1,
+      perPage: 20,
+      perPageOptions: [3,6],
+      dataEspecialFiltrada:[],
+      dataNormal:[],
+      campaniaSelected:null,
+      clienteSelected:{
+        ACTIVIDAD_ESENCIAL: "",
+        AGENCIA: "",
+        ASESOR: "",
+        AUTORIZA: "",
+        CALIF0: "",
+        CALIF1: "",
+        CAMPANA: "",
+        CODIGOCLIENTE: "",
+        CORREO: "",
+        DEPARTAMENTO: "",
+        DEUDADIRECTA: "",
+        DEUDIRCONREV: "",
+        DIRECCION: "",
+        DIRECCIONPOSTAL: "",
+        DISTRITO: "",
+        DOCUMENTO: "",
+        EDAD: "",
+        EMAIL_USER: "",
+        FCONTACTO1: "",
+        FCONTACTO2: "",
+        FCONTACTO3: "",
+        FCONTACTO4: "",
+        FCONTACTO5: "",
+        COMENTARIOS:"",
+        FECHACT: "",
+        FECNAC: "",
+        FECHA_SEGUIM: "",
+        ID_CAMP: "",
+        LIBRO: "",
+        NOMBRECOMPLETO: "",
+        NROIFI: "",
+        PROVINCIA: "",
+        RCONTACTO1: "",
+        RCONTACTO2: "",
+        RCONTACTO3: "",
+        RCONTACTO4: "",
+        RCONTACTO5: "",
+        REGION: "",
+        RULTIMA: "",
+        RESULTADO_SEGUIM: "",
+        SEXO: "",
+        TELEFONO: "",
+        TIPOCREDITOSBS: "",
+        ZONA: "",
+        FULTIMA:""
+      },
+      process:false
+    },
+    watch: {
+    },
+    mounted() {
+    },
+    created: function () {
+      console.log("userinfo",this.userinfo);
+      console.log("campanias",campanias);
+      //console.log("opcResultadoContacto",opc_resultadoContacto);
+    },
+    computed: {
+      calFULTIMA:function(){
+        let r = "";
+        if(this.clienteSelected.FCONTACTO5 !== ""){
+          r = this.clienteSelected.FCONTACTO5
+        }else if(this.clienteSelected.FCONTACTO4 !== ""){
+          r = this.clienteSelected.FCONTACTO4
+        }else if(this.clienteSelected.FCONTACTO3 !== ""){
+          r = this.clienteSelected.FCONTACTO3
+        }else if(this.clienteSelected.FCONTACTO2 !== ""){
+          r = this.clienteSelected.FCONTACTO2
+        }else if(this.clienteSelected.FCONTACTO1 !== ""){
+          r = this.clienteSelected.FCONTACTO1;
+        }
+        return r;
+      },
+      calRULTIMA:function(){
+        let r = "";
+        if(this.clienteSelected.RCONTACTO5 !== ""){
+          r = this.clienteSelected.RCONTACTO5
+        }else if(this.clienteSelected.RCONTACTO4 !== ""){
+          r = this.clienteSelected.RCONTACTO4
+        }else if(this.clienteSelected.RCONTACTO3 !== ""){
+          r = this.clienteSelected.RCONTACTO3
+        }else if(this.clienteSelected.RCONTACTO2 !== ""){
+          r = this.clienteSelected.RCONTACTO2
+        }else if(this.clienteSelected.RCONTACTO1 !== ""){
+          r = this.clienteSelected.RCONTACTO1;
+        }
+        return r;
+      },
+      sortedRows:function() {
+        return this.dataEspecialFiltrada.sort( function (a,b) {
+          var modifier = 1;
+          if(this.currentSortDir === 'desc') modifier = -1;
+          if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+          if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+          return 0;
+
+        }.bind(this));
+      },
+      offset:function() {
+        return ((this.currentPage - 1) * this.perPage);
+      },
+      limit:function() {
+        return (this.offset + this.perPage);
+      },
+      numOfPages:function() {
+        var data =this.dataEspecialFiltrada;
+        return Math.ceil(data.length / this.perPage);
+      },
+      dataPaginada:function() {
+        var data =this.sortedRows;
+        if (this.offset > data.length) {
+          this.currentPage = this.numOfPages;
+        }
+        return data.slice(this.offset, this.limit);
+      }
+    },
+
+    methods: {
+      openSnakBar:function (msj,tipo) {
+        var x = document.getElementById("snackbar");
+        this.msjSnackbar.mensaje = msj;
+        this.msjSnackbar.tipo=tipo;
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 6000);
+      },
+      addNumeroLLamadas:function (inc) {
+        this.clienteSelected.NUMERO_LLAMADAS+= inc;
+        console.log("NUMERO_LLAMADAS",this.clienteSelected.NUMERO_LLAMADAS);
+        var hoy = new Date();
+        //fechaUltimaLlamada
+        var fecha = hoy.getFullYear() + '-' + this.ceroIzquierda( hoy.getMonth() + 1 ) + '-' +  this.ceroIzquierda(hoy.getDate());
+        var hora = this.ceroIzquierda(hoy.getHours()) + ':' + this.ceroIzquierda(hoy.getMinutes()) + ':' + this.ceroIzquierda(hoy.getSeconds());
+        this.clienteSelected.RULTIMA= fecha + ' ' + hora;
+
+      },
+      selectCampania:function(camp) {
+        console.log("Visualizar campania",camp);
+        this.campaniaSelected = camp;
+        this.dataEspecialFiltrada = camp.DATA;
+      },
+      showModal:function(cliente){
+        this.clienteSelected = cliente;
+        //this.clienteSelected.NUMERO_LLAMADAS = this.calNumeroLLamadas(cliente);
+      },
+      registrarLlamada:function(){
+        this.process = true;
+        this.clienteSelected.RULTIMA = this.calRULTIMA;
+        this.clienteSelected.FULTIMA = this.calFULTIMA;
+        google.script.run.withSuccessHandler(function(result) {
+          console.log("RPTA",result);
+          this.process = false;
+          $('#infoUserModal').modal('toggle');
+          //this.openSnakBar("Se actualizó correctamente","success");
+                                //(colorName, text, placementFrom, placementAlign, animateEnter, animateExit)
+          this.showNotification("alert-success", "Se actualizó correctamente", "bottom", "center", "", "");
+        }.bind(this)).registerCall(this.clienteSelected);
+
+      },
+      ceroIzquierda:function (numero) {
+        if(numero<9){
+          return "0"+numero;
+        }
+        return numero;
+      },
+
+      sort:function(s) {
+        //if s == current sort, reverse
+        //console.log("sort===");
+        if(s === this.currentSort) {
+          this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+        }
+        this.currentSort = s;
+      },
+      setPage:function(n) {
+        this.currentPage = n;
+      },
+      showNotification:function(colorName, text, placementFrom, placementAlign, animateEnter, animateExit) {
+        if (colorName === null || colorName === '') { colorName = 'bg-black'; }
+        if (text === null || text === '') { text = 'Turning standard Bootstrap alerts'; }
+        if (animateEnter === null || animateEnter === '') { animateEnter = 'animated fadeInDown'; }
+        if (animateExit === null || animateExit === '') { animateExit = 'animated fadeOutUp'; }
+        var allowDismiss = true;
+
+        $.notify({
+            message: text
+          },
+          {
+            type: colorName,
+            allow_dismiss: allowDismiss,
+            newest_on_top: true,
+            timer: 1000,
+            placement: {
+              from: placementFrom,
+              align: placementAlign
+            },
+            animate: {
+              enter: animateEnter,
+              exit: animateExit
+            },
+            template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
+              '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+              '<span data-notify="icon"></span> ' +
+              '<span data-notify="title">{1}</span> ' +
+              '<span data-notify="message">{2}</span>' +
+              '<div class="progress" data-notify="progressbar">' +
+              '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+              '</div>' +
+              '<a href="{3}" target="{4}" data-notify="url"></a>' +
+              '</div>'
+          });
+      }
+
+
+    }
+  });
+</script>
+
+</body>
+
+</html>

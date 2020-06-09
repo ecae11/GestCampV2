@@ -43,8 +43,8 @@ function updateRow(ssID, object) {
   arr.push(object.TIPOCREDITOSBS);
   arr.push(object.DEUDIRCONREV);
   arr.push(object.ACTIVIDAD_ESENCIAL);
-  arr.push(object.REGION);
-  arr.push(object.AGENCIA);
+  arr.push(object.CODREG);
+  arr.push(object.CODAGE);
   arr.push(object.ASESOR);
   arr.push(object.FCONTACTO1);
   arr.push(object.RCONTACTO1);

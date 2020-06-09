@@ -1,4 +1,4 @@
-import { columnToLetter } from './utils';
+import { columnToLetter } from '../server/utils';
 
 const getOpcResultadoContacto = () => {
   const wb = SpreadsheetApp.getActiveSpreadsheet();

@@ -1,12 +1,8 @@
-import { columnToLetter } from './utils';
-import getDataCampaignForEmail from './datafilter';
+import { getDataForSheetName } from '../server/utils';
+import { getDataCampaignForEmail } from './datafilter';
 
 const getCampaign = () => {
-  const wb = SpreadsheetApp.getActiveSpreadsheet();
-  const ss = wb.getSheetByName('Campanias');
-  const lastLetterColumn = columnToLetter(ss.getLastColumn());
-  const lastRow = ss.getLastRow();
-  const dataSheet = ss.getRange(`A1:${lastLetterColumn}${lastRow}`).getDisplayValues();
+  const dataSheet = getDataForSheetName('', 'Campanias');
   const arr = [];
 
   if (dataSheet.length > 1) {
