@@ -10,15 +10,59 @@ function columnToLetter(column) {
   }
   return letter;
 }
+function letraToHead(arr, key) {
+  let ind = 0;
+  arr[0].forEach((a, index) => {
+    if (a === key) {
+      ind = index + 1;
+    }
+  });
+  return ind;
+}
+
+function replaceInSheet(range, toReplace, replaceWith) {
+  const data = range.getValues();
+
+  let oldValue = '';
+  let newValue = '';
+  // let cellsChanged = 0;
+
+  // eslint-disable-next-line no-plusplus
+  for (let row = 0; row < data.length; row++) {
+    // eslint-disable-next-line no-plusplus
+    for (let item = 0; item < data[row].length; item++) {
+      oldValue = data[row][item];
+      newValue = data[row][item].replace(toReplace, replaceWith);
+      if (oldValue.trim().toUpperCase() !== newValue.trim().toUpperCase()) {
+        data[row][item] = newValue;
+      }
+    }
+  }
+  range.setValues(data);
+}
+
+function updateAsesor(ssID, obj) {
+  const sheet = SpreadsheetApp.openById(ssID).getSheetByName('Data');
+  const lastRow = sheet.getLastRow();
+  const lastLetterColumn = columnToLetter(lastRow);
+  const range = sheet.getRange(`A1:${lastLetterColumn}1`).getDisplayValues();
+  const letraEmail = columnToLetter(letraToHead(range, 'EMAIL_USER'));
+  const letraAsesor = columnToLetter(letraToHead(range, 'ASESOR'));
+  const rangeEmail = sheet.getRange(`${letraEmail}2:${letraEmail}${lastRow}`);
+  const rangeAsesor = sheet.getRange(`${letraAsesor}2:${letraAsesor}${lastRow}`);
+  replaceInSheet(rangeEmail, obj.EMAIL, obj.EMAILN);
+  replaceInSheet(rangeAsesor, obj.ASESOR, obj.ASESORN);
+  return { row: { ASESOR: obj.ASESORN, EMAIL: obj.EMAILN }, status: 200 };
+}
 
 function updateRow(ssID, object) {
   Logger.log(ssID);
   Logger.log(object);
   const wb = SpreadsheetApp.openById(ssID);
   const ss = wb.getSheetByName('Data');
-  const range = ss.getRange(`A${object.ROW}:AS${object.ROW}`);
+  const range = ss.getRange(`AB${object.ROW}:AS${object.ROW}`);
   const arr = [];
-  arr.push(object.ID_CAMP);
+  /*  arr.push(object.ID_CAMP);
   arr.push(object.CAMPANA);
   arr.push(object.EMAIL_USER);
   arr.push(object.CODIGOCLIENTE);
@@ -44,7 +88,7 @@ function updateRow(ssID, object) {
   arr.push(object.DEUDIRCONREV);
   arr.push(object.ACTIVIDAD_ESENCIAL);
   arr.push(object.CODREG);
-  arr.push(object.CODAGE);
+  arr.push(object.CODAGE); */
   arr.push(object.ASESOR);
   arr.push(object.FCONTACTO1);
   arr.push(object.RCONTACTO1);
@@ -100,4 +144,14 @@ function registerCall(obj) {
     return updateRow(ssid, obj);
   }
   return { row: obj.ROW, status: 400 };
+}
+
+// eslint-disable-next-line no-unused-vars
+function actualizarAsesor(obj) {
+  const camp = getCampanias(obj.ID_CAMP);
+  if (camp.length > 0) {
+    const ssid = camp[0].SHEET_DATA;
+    return updateAsesor(ssid, obj);
+  }
+  return { row: obj.ASESOR, status: 400 };
 }

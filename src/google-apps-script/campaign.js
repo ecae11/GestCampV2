@@ -1,4 +1,5 @@
 import { getDataForSheetName } from '../server/utils';
+// eslint-disable-next-line import/named
 import { getDataCampaignForEmail } from './datafilter';
 
 const getCampaign = () => {

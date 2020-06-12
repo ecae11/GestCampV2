@@ -203,7 +203,7 @@
                                     </li>
                                     <li role="presentation" >
                                         <a href="#messages_with_icon_title" data-toggle="tab" aria-expanded="true">
-                                            <i class="material-icons">contact_phone</i> Reg. LLamadas
+                                            <i class="material-icons">contact_phone</i> Registro Contactos
                                         </a>
                                     </li>
                                 </ul>
@@ -347,8 +347,8 @@
                                           <div class="col-md-3 col-sm-3 col-xs-6 " >
                                               <div class="form-group form-float">
                                                   <div class="form-line">
-                                                      <label>1° LLAMADA:</label>
-                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO1" >
+                                                      <label>1° CONTACTO:</label>
+                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO1" :disabled="clienteSelected.FCONTACTO1!=''" >
                                                   </div>
                                               </div>
                                           </div>
@@ -357,7 +357,7 @@
                                               <div class="form-group form-float">
                                                   <div class="form-line">
                                                       <label>1° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO1">
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO1" :disabled="clienteSelected.RCONTACTO1!='' && clienteSelected.RULTIMA!=''" >
                                                           <option disabled value="">Seleccione una opción</option>
                                                           <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
                                                       </select>
@@ -367,8 +367,8 @@
                                           <div class="col-md-3 col-sm-3 col-xs-6 " >
                                               <div class="form-group form-float">
                                                   <div class="form-line">
-                                                      <label>2° LLAMADA:</label>
-                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO2"  >
+                                                      <label>2° CONTACTO:</label>
+                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO2" :disabled="clienteSelected.FCONTACTO2!='' && clienteSelected.RULTIMA!=''" >
                                                   </div>
                                               </div>
                                           </div>
@@ -377,7 +377,7 @@
                                               <div class="form-group form-float">
                                                   <div class="form-line">
                                                       <label>2° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO2">
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO2" :disabled="clienteSelected.RCONTACTO2!='' && clienteSelected.RULTIMA!=''" >
                                                           <option disabled value="">Seleccione una opción</option>
                                                           <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
                                                       </select>
@@ -387,8 +387,8 @@
                                           <div class="col-md-3 col-sm-3 col-xs-6 " >
                                               <div class="form-group form-float">
                                                   <div class="form-line">
-                                                      <label>3° LLAMADA:</label>
-                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO3" >
+                                                      <label>3° CONTACTO:</label>
+                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO3" :disabled="clienteSelected.FCONTACTO3!='' && clienteSelected.RULTIMA!=''" >
                                                   </div>
                                               </div>
                                           </div>
@@ -397,7 +397,7 @@
                                               <div class="form-group form-float">
                                                   <div class="form-line">
                                                       <label>3° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO3">
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO3" :disabled="clienteSelected.RCONTACTO3!='' && clienteSelected.RULTIMA!=''" >
                                                           <option disabled value="">Seleccione una opción</option>
                                                           <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
                                                       </select>
@@ -407,8 +407,8 @@
                                           <div class="col-md-3 col-sm-3 col-xs-6 " >
                                               <div class="form-group form-float">
                                                   <div class="form-line">
-                                                      <label>4° LLAMADA:</label>
-                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO4" >
+                                                      <label>4° CONTACTO:</label>
+                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO4" :disabled="clienteSelected.FCONTACTO4!='' && clienteSelected.RULTIMA!=''" >
                                                   </div>
                                               </div>
                                           </div>
@@ -417,7 +417,7 @@
                                               <div class="form-group form-float">
                                                   <div class="form-line">
                                                       <label>4° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO4">
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO4" :disabled="clienteSelected.RCONTACTO4!='' && clienteSelected.RULTIMA!=''" >
                                                           <option disabled value="">Seleccione una opción</option>
                                                           <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
                                                       </select>
@@ -427,8 +427,8 @@
                                           <div class="col-md-3 col-sm-3 col-xs-6 " >
                                               <div class="form-group form-float">
                                                   <div class="form-line">
-                                                      <label>5° LLAMADA:</label>
-                                                      <input type="date" class="form-control" v-model="clienteSelected.FCONTACTO5"  >
+                                                      <label>5° CONTACTO:</label>
+                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO5" :disabled="clienteSelected.FCONTACTO5!='' && clienteSelected.RULTIMA!=''" >
                                                   </div>
                                               </div>
                                           </div>
@@ -437,7 +437,7 @@
                                               <div class="form-group form-float">
                                                   <div class="form-line">
                                                       <label>5° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO5">
+                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO5" :disabled="clienteSelected.RCONTACTO5!='' && clienteSelected.RULTIMA!=''" >
                                                           <option disabled value="">Seleccione una opción</option>
                                                           <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
                                                       </select>
@@ -672,6 +672,7 @@
         this.dataEspecialFiltrada = camp.DATA;
       },
       showModal:function(cliente){
+        console.log("cliente",cliente);
         this.clienteSelected = cliente;
         //this.clienteSelected.NUMERO_LLAMADAS = this.calNumeroLLamadas(cliente);
       },
@@ -683,8 +684,6 @@
           console.log("RPTA",result);
           this.process = false;
           $('#infoUserModal').modal('toggle');
-          //this.openSnakBar("Se actualizó correctamente","success");
-                                //(colorName, text, placementFrom, placementAlign, animateEnter, animateExit)
           this.showNotification("alert-success", "Se actualizó correctamente", "bottom", "center", "", "");
         }.bind(this)).registerCall(this.clienteSelected);
 

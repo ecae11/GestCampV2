@@ -29,6 +29,9 @@
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/css/themes/all-themes.css" rel="stylesheet" />
+
+    <!--ht-wt  -->
+    <link href="https://drive.google.com/uc?export=view&id=1jebnoMM0CkzUgJe38udT4xi4fHGV9RGg" rel="stylesheet">
 </head>
 
 <body class="theme-indigo">
@@ -121,37 +124,159 @@
 
     <section class="content">
         <div class="container-fluid">
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <!--<div class="header bg-blue-grey">
-                            <h2 >
-                                Sistema de Gestión de Campañas
-                            </h2>
-                            <ul class="header-dropdown m-r-0">
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <i class="material-icons">info_outline</i>
-                                    </a>
-                                </li>
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Seguimiento de Campañas
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Action</a></li>
+                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
+                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
                             </ul>
-                        </div>-->
-                        <div class="body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <h2>Hola {{userinfo.EMPNOM}}!</h2>
-                                    <p class="m-b-30">Estimado colaborador, en estos tiempos de adversidad, necesitamos  de tu apoyo, para reactivar las colocaciones de Caja Piura y consecuentemente la economía de nuestro país. Hoy más que nunca tenemos que trabajar unidos por nuestra Caja Piura, en beneficio de todos nosotros, de nuestras familias y nuestros clientes. Por ello, requerimos de tu talento para impulsar las campañas, en la cual necesitamos 2 horas de tu tiempo para realizar las llamadas a nuestros clientes vigentes y brindarles el mensaje integrador y beneficios del producto durante 5 días.</p>
-                                    <p class="m-b-30">Superar esta crisis es compromiso de todos, por eso tu apoyo es indispensable. Se dará seguimiento de las llamadas realizadas para temas de calidad en el servicio.</p>
-                                    <p class="m-b-30 font-bold">¡Recordemos que juntos hacemos el cambio!</p>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <img src="https://drive.google.com/uc?export=view&id=1ycmR9ZyxkGYPCn4-gF-TSqyrkAIfRh21" class="js-animating-object img-responsive">
-                                </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                        <li role="presentation"  class="active">
+                            <a href="#profile_only_icon_title" data-toggle="tab">
+                                <i class="material-icons">insert_chart</i> Avance
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#home_only_icon_title" data-toggle="tab">
+                                <i class="material-icons">visibility</i> Seguimiento
+                            </a>
+                        </li>
 
+
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="profile_only_icon_title">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <v-chart :id="identificador" clase="echarts ht-400 ht-xl-600 wd-800" :key="identificador" :options="barrasagrupadas" autoresize :theme="theme"></v-chart>
+                                </div>
                             </div>
 
-                            <!--<img src="https://drive.google.com/uc?export=view&id=1ycmR9ZyxkGYPCn4-gF-TSqyrkAIfRh21" class="js-animating-object img-responsive">-->
                         </div>
+                        <div role="tabpanel" class="tab-pane fade " id="home_only_icon_title">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <v-select label="NOMAGE" :options="agencias" v-model="agenciaSelected" placeholder="Agencias" multiple  />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <v-select label="TITULO_CAMPANA" :options="campanias" v-model="campaniaSelected" placeholder="Campañas" multiple  />
+                                </div>
+                                <div class="table-responsive  col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-md-4" style="margin-bottom: -20px">
+                                        <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">person</i>
+                                        </span>
+                                            <div class="form-line">
+                                                <input type="text" v-model="search" class="form-control" placeholder="Buscar asesor">
+                                            </div>
+                                            <span class="input-group-addon">
+                                            <i class="material-icons">send</i>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered table-hover ">
+                                            <thead>
+                                            <tr>
+                                                <th @click="sort('AGENCIA')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  AGENCIA </th>
+                                                <th @click="sort('ASESOR')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  ASESOR </th>
+                                                <th @click="sort('AVANCE')" style="cursor: pointer"> <i class="fa fa-sort" aria-hidden="true"></i>  AVANCE</th>
+                                                <th @click="sort('CLIENTES')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  CLIENTES</th>
+                                                <th @click="sort('INTERESADOS')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i> INTERESADOS</th>
+                                                <th @click="sort('CAMPANA')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  CAMPAÑA</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <!--<tr v-for="(detalle,i) in direct.directorioWrapperList" > -->
+                                            <tr v-for="(detalle,i) in dataPaginada" >
+                                                <td>{{detalle.AGENCIA}}</td>
+                                                <td>{{detalle.ASESOR}}</td>
+                                                <td :style="colorCelda(detalle.AVANCE)">
+                                                    {{detalle.AVANCE}}%
+                                                </td>
+                                                <td>{{detalle.CLIENTES}}</td>
+                                                <td>{{detalle.INTERESADOS}}</td>
+                                                <td>{{detalle.CAMPANA}}</td>
+                                                <td>
+                                                    <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" href="#"  data-toggle="modal" data-target="#infoUserModal"  @click="showModal(detalle)" >
+                                                        <i class="material-icons">compare_arrows</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>TOTAL </th>
+                                                <th> </th>
+                                                <th> </th>
+                                                <th>{{_.sumBy(dataPaginada,'CLIENTES')}} </th>
+                                                <th>{{_.sumBy(dataPaginada,'INTERESADOS')}} </th>
+                                                <th> </th>
+                                                <th> </th>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <p>
+                                            <button   :class="['btn', currentPage==n ? 'btn-primary' : 'btn-default' ]" v-if="currentPage" :disabled="currentPage==n ? true : false"  v-for="n in numOfPages" @click.prevent="setPage(n)">{{n}}</button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal fade" id="infoUserModal" tabindex="-1" role="dialog" style="display: none;">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="largeModalLabel">ASESOR: {{asesorEdit.ASESOR}}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row clearfix">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>CAMBIAR A:</label>
+                                                        <v-select label="USUARIO" :options="usuarios" v-model="usuarioSelected" placeholder="Usuario"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <!--@click="registrarLlamada"-->
+                                        <button id="btn-save-llamada" type="button" class="btn bg-teal waves-effect" @click="actualizarAsesor" :disabled="process">
+                                            <i class="material-icons" v-if="!process">check</i>
+                                            <span v-if="!process">Cambiar</span>
+                                            <span v-if="process">Actualizando</span>
+                                            <i class="material-icons" v-if="process">hdr_strong</i>
+                                        </button>
+                                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                            <i class="material-icons">close</i>
+                                            <span >Cerrar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -179,6 +304,12 @@
 <script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/js/admin.js"></script>
 
 <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vue-select@latest"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@4.1.0/dist/echarts.js"></script>
+<script src="https://drive.google.com/uc?export=view&id=1RU1vovT-lo657FWsiZl4sFAx1_POptf5" type="application/javascript"></script>
 
 <script>
   //
@@ -186,6 +317,66 @@
   var opcmenu = <?!= opcmenu ?>;
   var url = <?= ScriptApp.getService().getUrl() ?>;
   var data_agencia = <?!= agencia ?>;
+  var data = <?!= data ?>;
+  var campanias = <?!= campanias ?>;
+  var usuarios = <?!= usuarios ?>;
+
+  function comasNumero(num) {
+    var value_str = String(num);
+    var num_parts = value_str.split('.');
+    num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    //console.log("comas_numero",num,num_parts.join("."));
+    return num_parts.join('.');
+  };
+  function rotateEtiqueta(etiquetax) {
+    var max = _.maxBy(etiquetax, function(o) {
+      return o.length;
+    });
+    //console.log("min",min);
+    if (max.length >= 7 && etiquetax.length > 12) {
+      return 90;
+    } else {
+      return 0;
+    }
+  };
+  function nFormatter (num, digits) {
+    var retorno;
+    var negativo = false;
+
+    if (num < 0) {
+      num = Math.abs(num);
+      negativo = true;
+    }
+
+    var si = [
+      { value: 1, symbol: '' },
+      { value: 1E3, symbol: 'k' },
+      { value: 1E6, symbol: 'M' },
+      //{ value: 1E9, symbol: "G" },
+      { value: 1E12, symbol: 'T' },
+      { value: 1E15, symbol: 'P' },
+      { value: 1E18, symbol: 'E' }
+    ];
+    //var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    //var rx = /\B(?=(\d{3})+(?!\d))+$/g;
+    var i;
+    for (i = si.length - 1; i > 0; i--) {
+      if (num >= si[i].value) {
+        break;
+      }
+    }
+
+    retorno = (num / si[i].value).toFixed(digits);
+    retorno = this.comasNumero(retorno) + si[i].symbol;
+    //retorno = (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
+    if (negativo) {
+      retorno = '-' + retorno;
+    }
+    return retorno;
+  };
+
+  Vue.component( 'v-select', VueSelect.VueSelect);
+  Vue.component('v-chart', VueECharts);
 
   var apps = new Vue({
     el: '#app',
@@ -193,26 +384,403 @@
       url: url,
       userinfo: userinfo,
       opcmenu: opcmenu,
-      dataAgencia: data_agencia
+      agencias: data_agencia,
+      data: data,
+      agenciaSelected: [],
+      campanias: campanias,
+      campaniaSelected: [],
+      usuarios:usuarios,
+      usuarioSelected:{
+        CORREO: "",
+        EMPAPM: "",
+        EMPAPP: "",
+        EMPNOM: "",
+        NOMEMP: "",
+      },
+
+      currentSort:'AVANCE',
+      currentSortDir:'desc',
+      search:"",
+      currentPage: 1,
+      perPage: 20,
+      perPageOptions: [3,6],
+      dataEspecialFiltrada:[],
+      dataNormal:[],
+      dataNormalBk:[],
+
+      barrasagrupadas:null,
+      theme:null,
+      identificador:'',
+      legend:[],
+      category:[],
+      series:[],
+      colores:[],
+      asesorEdit:{
+        ASESOR:'',
+        EMAIL:''
+      },
+      process:false
     },
     watch: {
+      search:function (current) {
+        if(_.trim(current).length>0){
+          console.log("search",current);
+          this.dataEspecialFiltrada =  this.dataNormalBk.filter(function (val) {
+              return _.includes( _.toUpper(val.ASESOR.trim()),_.toUpper(current));
+            }.bind(this));
+          this.filterSelect();
+          //this.dataNormalBk = this.dataEspecialFiltrada;
+        }else {
+          this.filterSelect();
+        }
+      },
+      agenciaSelected:function(current,old) {
+        console.log("current",current,"old",old);
+        var values = [];
+        current.forEach(function(el) {
+          values.push(el.CODAGE);
+        });
+        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.avanceAsesor()): this.avanceAsesor();
+        values = [];
+        this.campaniaSelected.forEach(function(el) {
+          values.push(el.ID_CAMPANIA);
+        });
+        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
+        this.dataEspecialFiltrada = this.dataEspecialFiltrada.filter(function (val) {
+          return _.includes( _.toUpper(val.ASESOR.trim()),_.toUpper(this.search));
+        }.bind(this));
+
+        this.dataNormalBk = this.dataEspecialFiltrada;
+        //console.log("campaniaSelected",this.dataEspecialFiltrada,values);
+      },
+      campaniaSelected:function(current,old) {
+        console.log("current",current,"old",old);
+        var values = [];
+        current.forEach(function(el) {
+          values.push(el.ID_CAMPANIA);
+        });
+        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.avanceAsesor()): this.avanceAsesor();
+        values = [];
+        this.agenciaSelected.forEach(function(el) {
+          values.push(el.CODAGE);
+        });
+        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
+        this.dataEspecialFiltrada = this.dataEspecialFiltrada.filter(function (val) {
+          return _.includes( _.toUpper(val.ASESOR.trim()),_.toUpper(this.search));
+        }.bind(this));
+        this.dataNormalBk = this.dataEspecialFiltrada;
+        //console.log("campaniaSelected",this.dataEspecialFiltrada,values);
+      }
     },
     mounted() {
     },
     created: function () {
       console.log("userinfo",this.userinfo);
       console.log("opcmenu",this.opcmenu);
-      console.log("dataAgencia",this.dataAgencia);
+      console.log("agencias",this.agencias);
+      console.log("data",this.data);
+      console.log("usuarios",this.usuarios);
+      this.dataEspecialFiltrada = this.avanceAsesor();
+      this.dataNormalBk = this.dataEspecialFiltrada;
+      this.grafico();
     },
     computed: {
+      sortedRows:function() {
+        return this.dataEspecialFiltrada.sort( function (a,b) {
+          var modifier = 1;
+          if(this.currentSortDir === 'desc') modifier = -1;
+          if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+          if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+          return 0;
+
+        }.bind(this));
+      },
+      offset:function() {
+        return ((this.currentPage - 1) * this.perPage);
+      },
+      limit:function() {
+        return (this.offset + this.perPage);
+      },
+      numOfPages:function() {
+        var data =this.dataEspecialFiltrada;
+        return Math.ceil(data.length / this.perPage);
+      },
+      dataPaginada:function() {
+        var data =this.sortedRows;
+        if (this.offset > data.length) {
+          this.currentPage = this.numOfPages;
+        }
+        return data.slice(this.offset, this.limit);
+      }
     },
 
     methods: {
+      showNotification:function(colorName, text, placementFrom, placementAlign, animateEnter, animateExit) {
+        if (colorName === null || colorName === '') { colorName = 'bg-black'; }
+        if (text === null || text === '') { text = 'Turning standard Bootstrap alerts'; }
+        if (animateEnter === null || animateEnter === '') { animateEnter = 'animated fadeInDown'; }
+        if (animateExit === null || animateExit === '') { animateExit = 'animated fadeOutUp'; }
+        var allowDismiss = true;
+
+        $.notify({
+            message: text
+          },
+          {
+            type: colorName,
+            allow_dismiss: allowDismiss,
+            newest_on_top: true,
+            timer: 1000,
+            placement: {
+              from: placementFrom,
+              align: placementAlign
+            },
+            animate: {
+              enter: animateEnter,
+              exit: animateExit
+            },
+            template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
+              '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+              '<span data-notify="icon"></span> ' +
+              '<span data-notify="title">{1}</span> ' +
+              '<span data-notify="message">{2}</span>' +
+              '<div class="progress" data-notify="progressbar">' +
+              '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+              '</div>' +
+              '<a href="{3}" target="{4}" data-notify="url"></a>' +
+              '</div>'
+          });
+      },
+
+      actualizarAsesor:function(){
+        this.process = true;
+        this.asesorEdit.ASESORN = this.usuarioSelected.USUARIO;
+        this.asesorEdit.EMAILN = this.usuarioSelected.CORREO;
+        google.script.run.withSuccessHandler(function(result) {
+          console.log("RPTA",result);
+          this.process = false;
+          for(var i=0;i<this.data.length;i++){
+            for (var j=0;j<this.data[i].length;j++){
+              if(this.data[i][j].ID_CAMP == this.asesorEdit.ID_CAMP){
+                if(this.data[i][j].ASESOR == this.asesorEdit.ASESOR){
+                  this.data[i][j].EMAIL_USER = this.usuarioSelected.CORREO;
+                  this.data[i][j].ASESOR = this.usuarioSelected.USUARIO;
+                }
+              }else{
+                break;
+              }
+            }
+          }
+          this.dataEspecialFiltrada = this.avanceAsesor();
+
+          $('#infoUserModal').modal('toggle');
+          //this.showNotification("alert-success", "Se actualizó correctamente", "bottom", "center", "", "");
+        }.bind(this)).actualizarAsesor(this.asesorEdit);
+
+      },
+      showModal:function(asesor){
+        this.usuarioSelected = this.usuarios.filter((e)=>{
+          return _.toUpper(_.trim(e.USUARIO)) == _.toUpper(_.trim(asesor.ASESOR));
+        });
+        this.asesorEdit = asesor;
+      },
+      colorCelda:function(valor){
+        var color = "#115d04";
+        var bgcolor = "#d1fdc9";
+        if(valor<=50){
+          color = "#921925";
+          bgcolor = "#fae3e5";
+        }else if(valor>50 && valor<=80) {
+          color = "#9e6007";
+          bgcolor = "#fdefda";
+        }
+        return {
+          color: color,
+          backgroundColor: bgcolor,
+          fontWeight: 'bold'
+        };
+      },
+
+      grafico:function(){
+
+        var groupCamp = _.groupBy(this.dataEspecialFiltrada,'CAMPANA');
+
+        Object.keys(groupCamp).forEach((a)=>{
+          this.legend.push(a);
+          var obj = {};
+          obj.name = a;
+          obj.type = 'bar';
+          var arrData = [];
+          var groupAgencia = _.groupBy(groupCamp[a],'AGENCIA');
+          var arrCategoria = [];
+          console.log("keys",Object.keys(groupAgencia));
+          Object.keys(groupAgencia).forEach((b)=>{
+            var clientes = _.sumBy(groupAgencia[b], function(o) { return o.CLIENTES; });
+            var contatos = _.sumBy(groupAgencia[b], function(o) { return o.CONTACTO; });
+            var avance = (clientes>0) ? _.round(100*contatos/clientes, 2)  : 0;
+            arrData.push(avance);
+            arrCategoria.push(b);
+          });
+          obj.data = arrData;
+          this.category = arrCategoria;
+          this.series.push(obj);
+
+        });
+        console.log("legend",this.legend);
+        console.log("category",this.category);
+        console.log("series",this.series);
+
+        var color = [];
+        if(this.colores.length>0){
+          color = this.colores;
+        }else {
+          color =  [
+            "#1976d2",
+            "#d91c5f",
+            "#009788",
+            "#ffec01",
+            "#fb9900",
+            "#9e9e9e",
+            "#759c6a",
+            "#bfd3b7"]
+        }
+
+        this.theme= {
+          color:color,
+          textStyle: {
+            fontFamily: "Arial, Verdana, sans-serif"
+          }
+        };
+        this.identificador="barrasagrupadas";
+
+        this.barrasagrupadas = {
+          tooltip : {
+            trigger: 'axis',
+            axisPointer : {
+              type : 'shadow'
+            },
+            formatter: function (params, ticket, callback) {
+              var tool= params[0].name + '<br/>';
+              params.forEach(function (val,index,array) {
+                if (val.value != 0) {
+                  tool = tool+val.marker+val.seriesName+": "+comasNumero( val.value)+'<br/> '
+                }
+              });
+              return tool;
+            }
+          },
+          legend: {
+            data:this.legend
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+          },
+          xAxis : [
+            {
+              type : 'category',
+              data : this.category,
+              splitArea: {
+                show: true
+              },
+              axisLabel: {
+                rotate: rotateEtiqueta(this.category)
+              }
+            }
+          ],
+          yAxis : [
+            {
+              type : 'value',
+              axisLabel: {
+                formatter: function(value,index) {
+                  return nFormatter(value,0);
+                }
+              }
+            }, {
+              type : 'value',
+              axisLabel: {
+                formatter: function(value,index) {
+                  return nFormatter(value,0);
+                }
+              }
+            }
+          ],
+          series : this.series
+        };
+        //this.barrasagrupadas = useZoom(this.propgrafico.zoom,this.barrasagrupadas,this.propgrafico.startzoom,this.propgrafico.endzoom);
+      },
+
+      filterSelect:function(){
+        var values = [];
+        this.campaniaSelected.forEach(function(el) {
+          values.push(el.ID_CAMPANIA);
+        });
+        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
+        values = [];
+        this.agenciaSelected.forEach(function(el) {
+          values.push(el.CODAGE);
+        });
+        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
+      },
+      groupBy:function(xs, key){
+        var obj = [];
+        xs.forEach(function (value1) {
+          obj.push((value1[key]==undefined?0:value1[key]));
+        });
+        return obj;
+      },
+      filterKeys:function(keys,values,data){
+        return data.filter(function(e) {
+          return keys.every(function(a) {
+            return values.includes(e[a])
+          })
+        })
+      },
+      sort:function(s) {
+        //if s == current sort, reverse
+        //console.log("sort===");
+        if(s === this.currentSort) {
+          this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+        }
+        this.currentSort = s;
+      },
+      setPage:function(n) {
+        this.currentPage = n;
+      },
       redirectMenu:function(opc) {
         var url = this.url + '?v=' + opc.URL;
         window.open(url,'_blank');
         window.open('','_self').close();
         //window.close()
+      },
+      avanceAsesor:function() {
+        var data = [];
+        var agencias = this.agencias;
+        this.data.forEach(function(el) {
+          var unicos = _.uniqBy(el, 'ASESOR');
+          //console.log("unicos",unicos);
+          //var resumen = [];
+          unicos.forEach(function(val) {
+            var obj = {};
+            obj.CAMPANA = val.CAMPANA;
+            obj.ASESOR = val.ASESOR;
+            obj.CLIENTES = _.filter(el, (o) => {return o.ASESOR === val.ASESOR; }).length;
+            obj.CONTACTO = _.filter(el, (o) => {return o.ASESOR === val.ASESOR && o.RULTIMA !=='' ; }).length;
+            obj.AVANCE =  (obj.CLIENTES>0) ? _.round(100*obj.CONTACTO/obj.CLIENTES, 2)  : 0;
+            obj.ID_CAMP = val.ID_CAMP;
+            obj.CODAGE = val.CODAGE;
+            obj.CODREG = val.CODREG;
+            obj.AGENCIA = _.filter(agencias, (o) => {return o.CODAGE === val.CODAGE; })[0].NOMAGE;
+            obj.INTERESADOS = _.filter(el, (o) => {return o.ASESOR === val.ASESOR && o.RULTIMA ==='Interesado'  ; }).length;
+            obj.EMAIL = val.EMAIL_USER;
+            //resumen.push(obj);
+            data.push(obj);
+          }.bind(this));
+          //console.log("resumen",resumen);
+        });
+        //console.log("dataTotal",data);
+        return data;
       }
     }
   });

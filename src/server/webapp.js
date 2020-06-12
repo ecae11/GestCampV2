@@ -2,7 +2,13 @@ import getCampaign from '../google-apps-script/campaign';
 import getOpcResultadoContacto from '../google-apps-script/opcResultadoContacto';
 import { getInfoUser } from '../google-apps-script/UserInfo';
 import getOpcMenu from '../google-apps-script/opcMenu';
-import { example } from '../google-apps-script/datafilter';
+// eslint-disable-next-line import/named
+import {
+  getAgenciasFilter,
+  getCampanias,
+  getUsuarios,
+  todoDataCampanias,
+} from '../google-apps-script/datafilter';
 
 const Route = {};
 Route.path = function (route, callback) {
@@ -41,11 +47,12 @@ const loadCampanias = () => {
   objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
   return render('campanias', objs);
 };
-const loadAgencia = () => {
+const loadViewAdminAgencia = () => {
   const objs = universalObject();
-  // eslint-disable-next-line no-undef
-  const data = example();
-  objs.agencia = JSON.stringify(data);
+  objs.agencia = JSON.stringify(getAgenciasFilter());
+  objs.data = JSON.stringify(todoDataCampanias());
+  objs.campanias = JSON.stringify(getCampanias());
+  objs.usuarios = JSON.stringify(getUsuarios());
   return render('agencias', objs);
 };
 const doGet = (e) => {
@@ -53,7 +60,7 @@ const doGet = (e) => {
   Logger.log(e.parameters.v);
   Route.path('home', loadIndex);
   Route.path('campanias', loadCampanias);
-  Route.path('agencias', loadAgencia);
+  Route.path('agencias', loadViewAdminAgencia);
   if (Route[e.parameters.v]) {
     return Route[e.parameters.v]();
   }
