@@ -154,25 +154,21 @@
                 <div class="body">
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <v-select label="REGION" :options="regions" v-model="regionSelectedSearch" placeholder="Región" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <v-select label="NOMAGE" :options="agencias" v-model="agenciaSelected" placeholder="Agencias" multiple  />
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <v-select label="TITULO_CAMPANA" :options="campanias" v-model="campaniaSelected" placeholder="Campañas" multiple  />
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <v-select label="ASESOR" :options="usuariosSearch" v-model="usuarioSelectedSearch" placeholder="Usuarios" />
-                        </div>
+                       
                     </div>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs tab-nav-right" role="tablist">
                         <li role="presentation"  class="active">
                             <a href="#profile_only_icon_title" data-toggle="tab">
                                 <i class="material-icons">insert_chart</i> Avance
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#home_only_icon_title" data-toggle="tab">
-                                <i class="material-icons">visibility</i> Seguimiento
                             </a>
                         </li>
                     </ul>
@@ -184,7 +180,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div class="card">
                                         <div class="header">
-                                            <h2>BAR CHART</h2>
+                                            <h2>Embudo Comercial</h2>
                                             <ul class="header-dropdown m-r--5">
                                                 <li class="dropdown">
                                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -206,7 +202,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div class="card">
                                         <div class="header">
-                                            <h2>BAR CHART</h2>
+                                            <h2>Avance por Campaña</h2>
                                             <ul class="header-dropdown m-r--5">
                                                 <li class="dropdown">
                                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -228,7 +224,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div class="card">
                                         <div class="header">
-                                            <h2>BAR CHART</h2>
+                                            <h2>Top 5 Agencias con menos Avance </h2>
                                             <ul class="header-dropdown m-r--5">
                                                 <li class="dropdown">
                                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -250,7 +246,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div class="card">
                                         <div class="header">
-                                            <h2>BAR CHART</h2>
+                                            <h2>Tipo de Respuesta</h2>
                                             <ul class="header-dropdown m-r--5">
                                                 <li class="dropdown">
                                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -271,106 +267,6 @@
                                 </div>
                             </div>
 
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade " id="home_only_icon_title">
-                            <div class="row">
-                                <div class="table-responsive  col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <!--  <div class="col-md-4" style="margin-bottom: -20px">
-                                        <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">person</i>
-                                        </span>
-                                            <div class="form-line">
-                                                <input type="text" v-model="search" class="form-control" placeholder="Buscar asesor">
-                                            </div>
-                                            <span class="input-group-addon">
-                                            <i class="material-icons">send</i>
-                                        </span>
-                                        </div>
-                                    </div>-->
-                                    <div class="col-md-12">
-                                        <table class="table table-bordered table-hover ">
-                                            <thead>
-                                            <tr>
-                                                <th @click="sort('AGENCIA')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  AGENCIA </th>
-                                                <th @click="sort('ASESOR')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  ASESOR </th>
-                                                <th @click="sort('AVANCE')" style="cursor: pointer"> <i class="fa fa-sort" aria-hidden="true"></i>  AVANCE</th>
-                                                <th @click="sort('CLIENTES')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  CLIENTES</th>
-                                                <th @click="sort('INTERESADOS')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i> INTERESADOS</th>
-                                                <th @click="sort('CAMPANA')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  CAMPAÑA</th>
-                                                <th></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <!--<tr v-for="(detalle,i) in direct.directorioWrapperList" > -->
-                                            <tr v-for="(detalle,i) in dataPaginada" >
-                                                <td>{{detalle.AGENCIA}}</td>
-                                                <td>{{detalle.ASESOR}}</td>
-                                                <td :style="colorCelda(detalle.AVANCE)">
-                                                    {{detalle.AVANCE}}%
-                                                </td>
-                                                <td>{{detalle.CLIENTES}}</td>
-                                                <td>{{detalle.INTERESADOS}}</td>
-                                                <td>{{detalle.CAMPANA}}</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" href="#"  data-toggle="modal" data-target="#infoUserModal"  @click="showModal(detalle)" >
-                                                        <i class="material-icons">compare_arrows</i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>TOTAL </th>
-                                                <th> </th>
-                                                <th> </th>
-                                                <th>{{_.sumBy(dataPaginada,'CLIENTES')}} </th>
-                                                <th>{{_.sumBy(dataPaginada,'INTERESADOS')}} </th>
-                                                <th> </th>
-                                                <th> </th>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <p>
-                                            <button   :class="['btn', currentPage==n ? 'btn-primary' : 'btn-default' ]" v-if="currentPage" :disabled="currentPage==n ? true : false"  v-for="n in numOfPages" @click.prevent="setPage(n)">{{n}}</button>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="modal fade" id="infoUserModal" tabindex="-1" role="dialog" style="display: none;">
-                            <div class="modal-dialog modal-sm" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="largeModalLabel">ASESOR: {{asesorEdit.ASESOR}}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row clearfix">
-                                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <label>CAMBIAR A:</label>
-                                                        <v-select label="USUARIO" :options="usuarios" v-model="usuarioSelected" placeholder="Usuario"  />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <!--@click="registrarLlamada"-->
-                                        <button id="btn-save-llamada" type="button" class="btn bg-teal waves-effect" @click="actualizarAsesor" :disabled="process">
-                                            <i class="material-icons" v-if="!process">check</i>
-                                            <span v-if="!process">Cambiar</span>
-                                            <span v-if="process">Actualizando</span>
-                                            <i class="material-icons" v-if="process">hdr_strong</i>
-                                        </button>
-                                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
-                                            <i class="material-icons">close</i>
-                                            <span >Cerrar</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -416,7 +312,7 @@
   var data = <?!= data ?>;
   var campanias = <?!= campanias ?>;
   var opcresultcontacto = <?!= opcresultcontacto ?>;
-  var usuarios = <?!= usuarios ?>;
+  var region = <?!= region ?>;
 
   function comasNumero(num) {
     var value_str = String(num);
@@ -489,36 +385,15 @@
       agenciaSelected: [],
       campanias: campanias,
       campaniaSelected: [],
-      usuarios:usuarios,
-      usuariosSearch:[],
-      usuarioSelectedSearch:null,
-      usuarioSelected:{
-        CORREO: "",
-        EMPAPM: "",
-        EMPAPP: "",
-        EMPNOM: "",
-        NOMEMP: "",
-      },
-
-      currentSort:'AVANCE',
-      currentSortDir:'desc',
-      search:"",
-      currentPage: 1,
-      perPage: 20,
-      perPageOptions: [3,6],
-      dataEspecialFiltrada:[],
-      dataNormal:[],
-      dataNormalBk:[],
-
+      regions:region,
+      regionsSearch:[],
+      regionSelectedSearch:null,
+      
       barrasagrupadas:null,
       embudoComercial:null,
       graficoAvanceAsesor:null,
       graficoAvanceOpcRespuesta:null,
-
-      identificador:'',
-      legend:[],
-      category:[],
-      series:[],
+      
       theme:{
         color:[
           "#009788",
@@ -534,79 +409,24 @@
           fontFamily: "Arial, Verdana, sans-serif"
         }
       },
-      asesorEdit:{
-        ASESOR:'',
-        EMAIL:''
-      },
       process:false
     },
     watch: {
-      search:function (current) {
-        if(_.trim(current).length>0){
-          console.log("search",current);
-          this.dataEspecialFiltrada =  this.dataNormalBk.filter(function (val) {
-              return _.includes( _.toUpper(val.ASESOR.trim()),_.toUpper(current));
-            }.bind(this));
-          this.filterSelect();
-          //this.dataNormalBk = this.dataEspecialFiltrada;
-        }else {
-          this.filterSelect();
-        }
-      },
-      usuarioSelectedSearch:function(current,old){
-        console.log("usuarioSelectedSearch",current,"old",old);
+      regionSelectedSearch:function(current,old){
+        console.log("regionSelectedSearch",current,"old",old);
         this.filterAll();
       },
-      usuarioSelected:function(current,old) {
-        console.log("usuarioSeleCurrent",current,"old",old);
+      regionSelected:function(current,old) {
+        console.log("regionSeleCurrent",current,"old",old);
         this.filterAll();
       },
       agenciaSelected:function(current,old) {
         console.log("agenciaSelected",current,"old",old);
         this.filterAll();
-/*        console.log("current",current,"old",old);
-        var values = [];
-        current.forEach(function(el) {
-          values.push(el.CODAGE);
-        });
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.avanceAsesor()): this.avanceAsesor();
-        values = [];
-        this.campaniaSelected.forEach(function(el) {
-          values.push(el.ID_CAMPANIA);
-        });
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
-        this.dataEspecialFiltrada = this.dataEspecialFiltrada.filter(function (val) {
-          return _.includes( _.toUpper(val.ASESOR.trim()),_.toUpper(this.search));
-        }.bind(this));
-        this.dataNormalBk = this.dataEspecialFiltrada;*/
-        //console.log("campaniaSelected",this.dataEspecialFiltrada,values);
       },
       campaniaSelected:function(current,old) {
         console.log("campaniaSelected",current,"old",old);
         this.filterAll();
-        /*var values = [];
-        current.forEach(function(el) {
-          values.push(el.ID_CAMPANIA);
-        });
-        this.dataFull = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.dataFullBk): this.dataFullBk;
-
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.avanceAsesor()): this.avanceAsesor();
-        values = [];
-        this.agenciaSelected.forEach(function(el) {
-          values.push(el.CODAGE);
-        });
-        this.dataFull = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataFull): this.dataFull;
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
-        this.dataEspecialFiltrada = this.dataEspecialFiltrada.filter(function (val) {
-          return _.includes( _.toUpper(val.ASESOR.trim()),_.toUpper(this.search));
-        }.bind(this));
-        this.dataNormalBk = this.dataEspecialFiltrada;
-
-        this.graficoAvance2();
-        this.graficoEmbudoComercial();
-        this.rankingAsesorTop();
-        this.graficoAvanceOpc();*/
-
       }
     },
     mounted() {
@@ -616,426 +436,59 @@
       console.log("opcmenu",this.opcmenu);
       console.log("agencias",this.agencias);
       console.log("data",this.data);
-      console.log("usuarios",this.usuarios);
+      console.log("regions",this.regions);
       console.log("campañas",this.campanias);
       console.log("opcresultcontacto",this.opcresultcontacto);
       var data_total = this.dataTotal();
       this.dataFull = data_total;
       this.dataFullBk =data_total;
-      console.log("dataFullBk",this.dataFullBk);
-      this.dataEspecialFiltrada = this.avanceAsesor();
-      this.dataNormalBk = this.dataEspecialFiltrada;
-      this.usuariosSearch = _.uniqBy(this.dataFullBk, 'ASESOR');
+      //this.regionsSearch = _.uniqBy(this.dataFullBk, 'REGION');
       this.graficoAvance2();
       this.graficoEmbudoComercial();
-      this.rankingAsesorTop();
+      this.rankingAgenciaTop();
       this.graficoAvanceOpc();
 
     },
     computed: {
-      sortedRows:function() {
-        return this.dataEspecialFiltrada.sort( function (a,b) {
-          var modifier = 1;
-          if(this.currentSortDir === 'desc') modifier = -1;
-          if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-          if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
-          return 0;
 
-        }.bind(this));
-      },
-      offset:function() {
-        return ((this.currentPage - 1) * this.perPage);
-      },
-      limit:function() {
-        return (this.offset + this.perPage);
-      },
-      numOfPages:function() {
-        var data =this.dataEspecialFiltrada;
-        return Math.ceil(data.length / this.perPage);
-      },
-      dataPaginada:function() {
-        var data =this.sortedRows;
-        if (this.offset > data.length) {
-          this.currentPage = this.numOfPages;
-        }
-        return data.slice(this.offset, this.limit);
-      }
     },
 
     methods: {
       filterAll:function(){
         this.dataFull = this.dataFullBk;
         this.dataEspecialFiltrada = this.dataNormalBk;
-        this.filterAsesorCombo();
+        this.filterRegionCombo();
         this.filterCampanaCombo();
         this.filterAgenciaCombo();
         this.graficoAvance2();
         this.graficoEmbudoComercial();
-        this.rankingAsesorTop();
+        this.rankingAgenciaTop();
         this.graficoAvanceOpc();
       },
-      filterAsesorCombo:function(){
-        if(this.usuarioSelectedSearch !== null ){
+
+      filterRegionCombo:function(){
+        if(this.regionSelectedSearch !== null ){
           this.dataFull = this.dataFull.filter((e)=>{
-            return e.ASESOR === this.usuarioSelectedSearch.ASESOR;
+            return e.CODREG === this.regionSelectedSearch.CODREG;
           });
-          this.dataEspecialFiltrada =  this.dataEspecialFiltrada.filter(function (val) {
-            return val.ASESOR === this.usuarioSelectedSearch.ASESOR;
-          }.bind(this));
         }
       },
+
       filterAgenciaCombo:function(){
         var values = [];
         this.agenciaSelected.forEach(function(el) {
           values.push(el.CODAGE);
         });
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
+        this.dataFull = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataFull): this.dataFull;
       },
+
       filterCampanaCombo:function(){
         var values = [];
         this.campaniaSelected.forEach(function(el) {
           values.push(el.ID_CAMPANIA);
         });
         this.dataFull = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.dataFull): this.dataFull;
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
       },
-
-      pickRandomProperty: function(obj) {
-        var result;
-        var count = 0;
-        for (var prop in obj)
-          if (Math.random() < 1 / ++count)
-            result = prop;
-        return result;
-      },
-      materialColor: function () {
-
-        var colors = {
-          "red": {
-            "50": "#ffebee",
-            "100": "#ffcdd2",
-            "200": "#ef9a9a",
-            "300": "#e57373",
-            "400": "#ef5350",
-            "500": "#f44336",
-            "600": "#e53935",
-            "700": "#d32f2f",
-            "800": "#c62828",
-            "900": "#b71c1c",
-            "hex": "#f44336",
-            "a100": "#ff8a80",
-            "a200": "#ff5252",
-            "a400": "#ff1744",
-            "a700": "#d50000"
-          },
-          "pink": {
-            "50": "#fce4ec",
-            "100": "#f8bbd0",
-            "200": "#f48fb1",
-            "300": "#f06292",
-            "400": "#ec407a",
-            "500": "#e91e63",
-            "600": "#d81b60",
-            "700": "#c2185b",
-            "800": "#ad1457",
-            "900": "#880e4f",
-            "hex": "#e91e63",
-            "a100": "#ff80ab",
-            "a200": "#ff4081",
-            "a400": "#f50057",
-            "a700": "#c51162"
-          },
-          "purple": {
-            "50": "#f3e5f5",
-            "100": "#e1bee7",
-            "200": "#ce93d8",
-            "300": "#ba68c8",
-            "400": "#ab47bc",
-            "500": "#9c27b0",
-            "600": "#8e24aa",
-            "700": "#7b1fa2",
-            "800": "#6a1b9a",
-            "900": "#4a148c",
-            "hex": "#9c27b0",
-            "a100": "#ea80fc",
-            "a200": "#e040fb",
-            "a400": "#d500f9",
-            "a700": "#aa00ff"
-          },
-          "deepPurple": {
-            "50": "#ede7f6",
-            "100": "#d1c4e9",
-            "200": "#b39ddb",
-            "300": "#9575cd",
-            "400": "#7e57c2",
-            "500": "#673ab7",
-            "600": "#5e35b1",
-            "700": "#512da8",
-            "800": "#4527a0",
-            "900": "#311b92",
-            "hex": "#673ab7",
-            "a100": "#b388ff",
-            "a200": "#7c4dff",
-            "a400": "#651fff",
-            "a700": "#6200ea"
-          },
-          "indigo": {
-            "50": "#e8eaf6",
-            "100": "#c5cae9",
-            "200": "#9fa8da",
-            "300": "#7986cb",
-            "400": "#5c6bc0",
-            "500": "#3f51b5",
-            "600": "#3949ab",
-            "700": "#303f9f",
-            "800": "#283593",
-            "900": "#1a237e",
-            "hex": "#3f51b5",
-            "a100": "#8c9eff",
-            "a200": "#536dfe",
-            "a400": "#3d5afe",
-            "a700": "#304ffe"
-          },
-          "blue": {
-            "50": "#e3f2fd",
-            "100": "#bbdefb",
-            "200": "#90caf9",
-            "300": "#64b5f6",
-            "400": "#42a5f5",
-            "500": "#2196f3",
-            "600": "#1e88e5",
-            "700": "#1976d2",
-            "800": "#1565c0",
-            "900": "#0d47a1",
-            "hex": "#2196f3",
-            "a100": "#82b1ff",
-            "a200": "#448aff",
-            "a400": "#2979ff",
-            "a700": "#2962ff"
-          },
-          "lightBlue": {
-            "50": "#e1f5fe",
-            "100": "#b3e5fc",
-            "200": "#81d4fa",
-            "300": "#4fc3f7",
-            "400": "#29b6f6",
-            "500": "#03a9f4",
-            "600": "#039be5",
-            "700": "#0288d1",
-            "800": "#0277bd",
-            "900": "#01579b",
-            "hex": "#03a9f4",
-            "a100": "#80d8ff",
-            "a200": "#40c4ff",
-            "a400": "#00b0ff",
-            "a700": "#0091ea"
-          },
-          "cyan": {
-            "50": "#e0f7fa",
-            "100": "#b2ebf2",
-            "200": "#80deea",
-            "300": "#4dd0e1",
-            "400": "#26c6da",
-            "500": "#00bcd4",
-            "600": "#00acc1",
-            "700": "#0097a7",
-            "800": "#00838f",
-            "900": "#006064",
-            "hex": "#00bcd4",
-            "a100": "#84ffff",
-            "a200": "#18ffff",
-            "a400": "#00e5ff",
-            "a700": "#00b8d4"
-          },
-          "teal": {
-            "50": "#e0f2f1",
-            "100": "#b2dfdb",
-            "200": "#80cbc4",
-            "300": "#4db6ac",
-            "400": "#26a69a",
-            "500": "#009688",
-            "600": "#00897b",
-            "700": "#00796b",
-            "800": "#00695c",
-            "900": "#004d40",
-            "hex": "#009688",
-            "a100": "#a7ffeb",
-            "a200": "#64ffda",
-            "a400": "#1de9b6",
-            "a700": "#00bfa5"
-          },
-          "green": {
-            "50": "#e8f5e9",
-            "100": "#c8e6c9",
-            "200": "#a5d6a7",
-            "300": "#81c784",
-            "400": "#66bb6a",
-            "500": "#4caf50",
-            "600": "#43a047",
-            "700": "#388e3c",
-            "800": "#2e7d32",
-            "900": "#1b5e20",
-            "hex": "#4caf50",
-            "a100": "#b9f6ca",
-            "a200": "#69f0ae",
-            "a400": "#00e676",
-            "a700": "#00c853"
-          },
-          "lightGreen": {
-            "50": "#f1f8e9",
-            "100": "#dcedc8",
-            "200": "#c5e1a5",
-            "300": "#aed581",
-            "400": "#9ccc65",
-            "500": "#8bc34a",
-            "600": "#7cb342",
-            "700": "#689f38",
-            "800": "#558b2f",
-            "900": "#33691e",
-            "hex": "#8bc34a",
-            "a100": "#ccff90",
-            "a200": "#b2ff59",
-            "a400": "#76ff03",
-            "a700": "#64dd17"
-          },
-          "lime": {
-            "50": "#f9fbe7",
-            "100": "#f0f4c3",
-            "200": "#e6ee9c",
-            "300": "#dce775",
-            "400": "#d4e157",
-            "500": "#cddc39",
-            "600": "#c0ca33",
-            "700": "#afb42b",
-            "800": "#9e9d24",
-            "900": "#827717",
-            "hex": "#cddc39",
-            "a100": "#f4ff81",
-            "a200": "#eeff41",
-            "a400": "#c6ff00",
-            "a700": "#aeea00"
-          },
-          "yellow": {
-            "50": "#fffde7",
-            "100": "#fff9c4",
-            "200": "#fff59d",
-            "300": "#fff176",
-            "400": "#ffee58",
-            "500": "#ffeb3b",
-            "600": "#fdd835",
-            "700": "#fbc02d",
-            "800": "#f9a825",
-            "900": "#f57f17",
-            "hex": "#ffeb3b",
-            "a100": "#ffff8d",
-            "a200": "#ffff00",
-            "a400": "#ffea00",
-            "a700": "#ffd600"
-          },
-          "amber": {
-            "50": "#fff8e1",
-            "100": "#ffecb3",
-            "200": "#ffe082",
-            "300": "#ffd54f",
-            "400": "#ffca28",
-            "500": "#ffc107",
-            "600": "#ffb300",
-            "700": "#ffa000",
-            "800": "#ff8f00",
-            "900": "#ff6f00",
-            "hex": "#ffc107",
-            "a100": "#ffe57f",
-            "a200": "#ffd740",
-            "a400": "#ffc400",
-            "a700": "#ffab00"
-          },
-          "orange": {
-            "50": "#fff3e0",
-            "100": "#ffe0b2",
-            "200": "#ffcc80",
-            "300": "#ffb74d",
-            "400": "#ffa726",
-            "500": "#ff9800",
-            "600": "#fb8c00",
-            "700": "#f57c00",
-            "800": "#ef6c00",
-            "900": "#e65100",
-            "hex": "#ff9800",
-            "a100": "#ffd180",
-            "a200": "#ffab40",
-            "a400": "#ff9100",
-            "a700": "#ff6d00"
-          },
-          "deepOrange": {
-            "50": "#fbe9e7",
-            "100": "#ffccbc",
-            "200": "#ffab91",
-            "300": "#ff8a65",
-            "400": "#ff7043",
-            "500": "#ff5722",
-            "600": "#f4511e",
-            "700": "#e64a19",
-            "800": "#d84315",
-            "900": "#bf360c",
-            "hex": "#ff5722",
-            "a100": "#ff9e80",
-            "a200": "#ff6e40",
-            "a400": "#ff3d00",
-            "a700": "#dd2c00"
-          },
-          "brown": {
-            "50": "#efebe9",
-            "100": "#d7ccc8",
-            "200": "#bcaaa4",
-            "300": "#a1887f",
-            "400": "#8d6e63",
-            "500": "#795548",
-            "600": "#6d4c41",
-            "700": "#5d4037",
-            "800": "#4e342e",
-            "900": "#3e2723",
-            "hex": "#795548"
-          },
-          "grey": {
-            "50": "#fafafa",
-            "100": "#f5f5f5",
-            "200": "#eeeeee",
-            "300": "#e0e0e0",
-            "400": "#bdbdbd",
-            "500": "#9e9e9e",
-            "600": "#757575",
-            "700": "#616161",
-            "800": "#424242",
-            "900": "#212121",
-            "hex": "#9e9e9e"
-          },
-          "blueGrey": {
-            "50": "#eceff1",
-            "100": "#cfd8dc",
-            "200": "#b0bec5",
-            "300": "#90a4ae",
-            "400": "#78909c",
-            "500": "#607d8b",
-            "600": "#546e7a",
-            "700": "#455a64",
-            "800": "#37474f",
-            "900": "#263238",
-            "hex": "#607d8b"
-          },
-          "black": {
-            "hex": "#000000"
-          },
-          "white": {
-            "hex": "#ffffff"
-          }
-        }
-        // pick random property
-        //var property = pickRandomProperty(colors);
-        var colorList = colors[this.pickRandomProperty(colors)];
-        var newColorKey = this.pickRandomProperty(colorList);
-        var newColor = colorList[newColorKey];
-        return newColor;
-       },
 
       dataTotal:function(){
         var arrTotal = [];
@@ -1046,91 +499,6 @@
         });
         return arrTotal;
       },
-      showNotification:function(colorName, text, placementFrom, placementAlign, animateEnter, animateExit) {
-        if (colorName === null || colorName === '') { colorName = 'bg-black'; }
-        if (text === null || text === '') { text = 'Turning standard Bootstrap alerts'; }
-        if (animateEnter === null || animateEnter === '') { animateEnter = 'animated fadeInDown'; }
-        if (animateExit === null || animateExit === '') { animateExit = 'animated fadeOutUp'; }
-        var allowDismiss = true;
-
-        $.notify({
-            message: text
-          },
-          {
-            type: colorName,
-            allow_dismiss: allowDismiss,
-            newest_on_top: true,
-            timer: 1000,
-            placement: {
-              from: placementFrom,
-              align: placementAlign
-            },
-            animate: {
-              enter: animateEnter,
-              exit: animateExit
-            },
-            template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
-              '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-              '<span data-notify="icon"></span> ' +
-              '<span data-notify="title">{1}</span> ' +
-              '<span data-notify="message">{2}</span>' +
-              '<div class="progress" data-notify="progressbar">' +
-              '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-              '</div>' +
-              '<a href="{3}" target="{4}" data-notify="url"></a>' +
-              '</div>'
-          });
-      },
-
-      actualizarAsesor:function(){
-        this.process = true;
-        this.asesorEdit.ASESORN = this.usuarioSelected.USUARIO;
-        this.asesorEdit.EMAILN = this.usuarioSelected.CORREO;
-        this.asesorEdit.NOMBRECOMPLETO = this.usuarioSelected.EMPNOM+' '+ this.usuarioSelected.EMPAPP+' '+this.usuarioSelected.EMPAPM;
-        google.script.run.withSuccessHandler(function(result) {
-          console.log("RPTA",result);
-          this.process = false;
-          for(var i=0;i<this.data.length;i++){
-            for (var j=0;j<this.data[i].length;j++){
-              if(this.data[i][j].ID_CAMP == this.asesorEdit.ID_CAMP){
-                if(this.data[i][j].ASESOR == this.asesorEdit.ASESOR){
-                  this.data[i][j].EMAIL_USER = this.usuarioSelected.CORREO;
-                  this.data[i][j].ASESOR = this.usuarioSelected.USUARIO;
-                }
-              }else{
-                break;
-              }
-            }
-          }
-          this.dataEspecialFiltrada = this.avanceAsesor();
-
-          $('#infoUserModal').modal('toggle');
-          //this.showNotification("alert-success", "Se actualizó correctamente", "bottom", "center", "", "");
-        }.bind(this)).actualizarAsesor(this.asesorEdit);
-
-      },
-      showModal:function(asesor){
-        this.usuarioSelected = this.usuarios.filter((e)=>{
-          return _.toUpper(_.trim(e.USUARIO)) == _.toUpper(_.trim(asesor.ASESOR));
-        });
-        this.asesorEdit = asesor;
-      },
-      colorCelda:function(valor){
-        var color = "#115d04";
-        var bgcolor = "#d1fdc9";
-        if(valor<=50){
-          color = "#921925";
-          bgcolor = "#fae3e5";
-        }else if(valor>50 && valor<=80) {
-          color = "#9e6007";
-          bgcolor = "#fdefda";
-        }
-        return {
-          color: color,
-          backgroundColor: bgcolor,
-          fontWeight: 'bold'
-        };
-      },
 
       graficoAvance2:function(){
         var groupCamp = _.groupBy(this.dataFull,'CAMPANA');
@@ -1140,26 +508,27 @@
         //console.log("campañas data",)
         console.log("groupCamp2",groupCamp);
         Object.keys(groupCamp).forEach((a)=>{
-          //this.legend.push(a);
-          //var campaña = this.campanias.filter((a)=>{return a.ID_CAMPANIA === a});  _.find(this.campanias,['ID_CAMPANIA',a]);
-          //console.log("campañaFor",campaña);
+
           arrLegend.push(a);
           var obj = {};
           obj.name = a;
           obj.type = 'bar';
           var arrData = [];
-          var groupAgencia = _.groupBy(groupCamp[a],'CODAGE');
+          var groupRegion = _.groupBy(groupCamp[a],'CODREG');
           var arrCategoria = [];
-          console.log("keys",Object.keys(groupAgencia));
-          console.log("groupAgencia",groupAgencia);
-          Object.keys(groupAgencia).forEach((b)=>{
-            var agencia = this.agencias.filter((e)=>{return e.CODAGE === b})[0].NOMAGE;
-            var clientes = groupAgencia[b].length;
-            var contatos = _.sumBy(groupAgencia[b], function(o) { return o.RULTIMA!==''; });
+          console.log("keys",Object.keys(groupRegion));
+          console.log("groupRegion",groupRegion);
+          Object.keys(groupRegion).forEach((b)=>{
+            var regionrr = this.regions.filter((e)=>{return e.CODREG === b})[0].REGION;
+            console.log("regionrr",regionrr);
+            var clientes = groupRegion[b].length;
+            console.log("clientes",clientes);
+            var contatos = _.sumBy(groupRegion[b], function(o) { return o.RULTIMA!==''; });
+            console.log("contatos",contatos);
             var avance = (clientes>0) ? _.round(100*contatos/clientes, 2)  : 0;
             arrData.push(avance);
-            arrCategoria.push(agencia);
-            console.log("agenciaSelect",agencia);
+            arrCategoria.push(regionrr);
+            console.log("regionrrSelect",regionrr);
           });
           obj.data = arrData;
           //this.series.push(obj);
@@ -1225,104 +594,7 @@
           series : arrSeries
         };
       },
-
-      graficoAvance:function(){
-
-        var groupCamp = _.groupBy(this.dataEspecialFiltrada,'CAMPANA');
-        console.log("groupCamp",groupCamp);
-        var arrSeries = [];
-        var arrLegend = [];
-        var arrCategorias =[];
-        //console.log("campañas data",)
-        Object.keys(groupCamp).forEach((a)=>{
-          //this.legend.push(a);
-          arrLegend.push(a);
-          var obj = {};
-          obj.name = a;
-          obj.type = 'bar';
-          var arrData = [];
-          var groupAgencia = _.groupBy(groupCamp[a],'AGENCIA');
-          var arrCategoria = [];
-          console.log("keys",Object.keys(groupAgencia));
-          Object.keys(groupAgencia).forEach((b)=>{
-            var clientes = _.sumBy(groupAgencia[b], function(o) { return o.CLIENTES; });
-            var contatos = _.sumBy(groupAgencia[b], function(o) { return o.CONTACTO; });
-            var avance = (clientes>0) ? _.round(100*contatos/clientes, 2)  : 0;
-            arrData.push(avance);
-            arrCategoria.push(b);
-          });
-          obj.data = arrData;
-          //this.series.push(obj);
-          arrCategorias = arrCategoria;
-          //this.category = arrCategoria;
-          arrSeries.push(obj);
-
-        });
-        console.log("legend",arrLegend);
-        console.log("category",arrCategorias);
-        console.log("series",arrSeries);
-
-        //this.identificador="barrasagrupadas";
-
-        this.barrasagrupadas = {
-          tooltip : {
-            trigger: 'axis',
-            axisPointer : {
-              type : 'shadow'
-            },
-            formatter: function (params, ticket, callback) {
-              var tool= params[0].name + '<br/>';
-              params.forEach(function (val,index,array) {
-                if (val.value != 0) {
-                  tool = tool+val.marker+val.seriesName+": "+comasNumero( val.value)+'<br/> '
-                }
-              });
-              return tool;
-            }
-          },
-          legend: {
-            data:arrLegend
-          },
-          grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-          },
-          xAxis : [
-            {
-              type : 'category',
-              data : arrCategorias,
-              splitArea: {
-                show: true
-              },
-              axisLabel: {
-                rotate: rotateEtiqueta(arrCategorias)
-              }
-            }
-          ],
-          yAxis : [
-            {
-              type : 'value',
-              axisLabel: {
-                formatter: function(value,index) {
-                  return nFormatter(value,0);
-                }
-              }
-            }, {
-              type : 'value',
-              axisLabel: {
-                formatter: function(value,index) {
-                  return nFormatter(value,0);
-                }
-              }
-            }
-          ],
-          series : arrSeries
-        };
-        //this.barrasagrupadas = useZoom(this.propgrafico.zoom,this.barrasagrupadas,this.propgrafico.startzoom,this.propgrafico.endzoom);
-      },
-
+      
       graficoAvanceOpc:function(){
 
         var arrLegend = [];
@@ -1368,26 +640,28 @@
         };
       },
 
-      rankingAsesorTop:function(){
-        var asesores =  _.groupBy(this.dataFull,'ASESOR');
+      rankingAgenciaTop:function(){
+        var agencias =  _.groupBy(this.dataFull,'CODAGE');
         var arrAvance = [];
-        console.log("asesores",asesores);
-        Object.keys(asesores).forEach((a)=>{
-          var contacto = _.filter(asesores[a], (o) => {return o.RULTIMA !=='' ; }).length;
-          var avance =  _.round(100*contacto/asesores[a].length, 2);
+        console.log("agenciaSSS",agencias);
+        Object.keys(agencias).forEach((a)=>{
+          var agenciasAD= _.filter(this.agencias, (o) => {return o.CODAGE ===a ; })[0].NOMAGE;
+          console.log("agenciasad",agenciasAD);
+          var contacto = _.filter(agencias[a], (o) => {return o.RULTIMA !=='' ; }).length;
+          var avance =  _.round(100*contacto/agencias[a].length, 2);
           arrAvance.push({
-            asesor:a,
+            agencia:agenciasAD,
             avance: avance,
-            cant:asesores[a]
+            cant:agencias[a]
           });
         });
         console.log("Avance",arrAvance);
-        var topAsesores = _.take(_.orderBy(arrAvance,['avance'],['asc']),5);
-        console.log("top 5 malos",topAsesores);
+        var topAgencias= _.take(_.orderBy(arrAvance,['avance'],['asc']),5);
+        console.log("top 5 malos",topAgencias);
         var arrCategoria = [];
         var arrData = [];
-        topAsesores.forEach((b)=>{
-          arrCategoria.push(b.asesor);
+        topAgencias.forEach((b)=>{
+          arrCategoria.push(b.agencia);
           arrData.push(b.avance);
         });
         this.graficoAvanceAsesor = {
@@ -1425,7 +699,6 @@
       },
 
       graficoEmbudoComercial:function() {
-
 
         var arrLegend = [];
         arrLegend.push('Prospectos');
@@ -1522,18 +795,6 @@
         };
       },
 
-      filterSelect:function(){
-        var values = [];
-        this.campaniaSelected.forEach(function(el) {
-          values.push(el.ID_CAMPANIA);
-        });
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
-        values = [];
-        this.agenciaSelected.forEach(function(el) {
-          values.push(el.CODAGE);
-        });
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
-      },
       groupBy:function(xs, key){
         var obj = [];
         xs.forEach(function (value1) {
@@ -1549,51 +810,13 @@
           })
         })
       },
-      sort:function(s) {
-        //if s == current sort, reverse
-        //console.log("sort===");
-        if(s === this.currentSort) {
-          this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
-        }
-        this.currentSort = s;
-      },
-      setPage:function(n) {
-        this.currentPage = n;
-      },
+
       redirectMenu:function(opc) {
         var url = this.url + '?v=' + opc.URL;
         window.open(url,'_blank');
         window.open('','_self').close();
         //window.close()
       },
-      avanceAsesor:function() {
-        var data = [];
-        var agencias = this.agencias;
-        this.data.forEach(function(el) {
-          var unicos = _.uniqBy(el, 'ASESOR');
-          //console.log("unicos",unicos);
-          //var resumen = [];
-          unicos.forEach(function(val) {
-            var obj = {};
-            obj.CAMPANA = val.CAMPANA;
-            obj.ASESOR = val.ASESOR;
-            obj.CLIENTES = _.filter(el, (o) => {return o.ASESOR === val.ASESOR; }).length;
-            obj.CONTACTO = _.filter(el, (o) => {return o.ASESOR === val.ASESOR && o.RULTIMA !=='' ; }).length;
-            obj.AVANCE =  (obj.CLIENTES>0) ? _.round(100*obj.CONTACTO/obj.CLIENTES, 2)  : 0;
-            obj.ID_CAMP = val.ID_CAMP;
-            obj.CODAGE = val.CODAGE;
-            obj.CODREG = val.CODREG;
-            obj.AGENCIA = _.filter(agencias, (o) => {return o.CODAGE === val.CODAGE; })[0].NOMAGE;
-            obj.INTERESADOS = _.filter(el, (o) => {return o.ASESOR === val.ASESOR && o.RULTIMA ==='Interesado'  ; }).length;
-            obj.EMAIL = val.EMAIL_USER;
-            //resumen.push(obj);
-            data.push(obj);
-          }.bind(this));
-          //console.log("resumen",resumen);
-        });
-        //console.log("dataTotal",data);
-        return data;
-      }
     }
   });
 </script>

@@ -120,6 +120,16 @@ const todoDataCampanias = () => {
   return arrRetur;
 };
 
+const getRegionFilter = () => {
+  // eslint-disable-next-line no-unused-vars
+  const arrPermisos = getPermisos(getInfoUser()).filter((e) => {
+    return e.ATTB === 'CODREG';
+  });
+  Logger.log('arrPermisos-getRegionFilter:');
+  Logger.log(arrPermisos);
+  return getDataCampLvlAccess('', 'Region', arrPermisos);
+};
+
 const getAgenciasFilter = () => {
   const arrPermisos = getPermisos(getInfoUser());
   return getDataCampLvlAccess('', 'Agencia', arrPermisos);
@@ -133,4 +143,11 @@ const getCampanias = () => {
   return dataToJson(getDataForSheetName('', 'Campanias'), 'STATUS', '1');
 };
 
-export { getDataCampaignForEmail, todoDataCampanias, getAgenciasFilter, getCampanias, getUsuarios };
+export {
+  getDataCampaignForEmail,
+  todoDataCampanias,
+  getRegionFilter,
+  getAgenciasFilter,
+  getCampanias,
+  getUsuarios,
+};

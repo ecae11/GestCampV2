@@ -6,6 +6,7 @@ import getOpcMenu from '../google-apps-script/opcMenu';
 import {
   getAgenciasFilter,
   getCampanias,
+  getRegionFilter,
   getUsuarios,
   todoDataCampanias,
 } from '../google-apps-script/datafilter';
@@ -56,12 +57,22 @@ const loadViewAdminAgencia = () => {
   objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
   return render('agencias', objs);
 };
+const loadViewGerenteRegional = () => {
+  const objs = universalObject();
+  objs.region = JSON.stringify(getRegionFilter());
+  objs.agencia = JSON.stringify(getAgenciasFilter());
+  objs.data = JSON.stringify(todoDataCampanias());
+  objs.campanias = JSON.stringify(getCampanias());
+  objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
+  return render('regiones', objs);
+};
 const doGet = (e) => {
   Logger.log(e.parameters);
   Logger.log(e.parameters.v);
   Route.path('home', loadIndex);
   Route.path('campanias', loadCampanias);
   Route.path('agencias', loadViewAdminAgencia);
+  Route.path('region', loadViewGerenteRegional);
   if (Route[e.parameters.v]) {
     return Route[e.parameters.v]();
   }
