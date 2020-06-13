@@ -20,6 +20,19 @@ function letraToHead(arr, key) {
   return ind;
 }
 
+function emailNotification(obj) {
+  // eslint-disable-next-line no-param-reassign
+  const template = HtmlService.createTemplateFromFile('emailgoogledrive');
+  template.datos = obj;
+  const msj = template.evaluate().getContent();
+
+  MailApp.sendEmail({
+    to: obj.EMAILN,
+    subject: obj.CAMPANA,
+    htmlBody: msj,
+  });
+}
+
 function replaceInSheet(range, toReplace, replaceWith) {
   const data = range.getValues();
 
@@ -42,16 +55,19 @@ function replaceInSheet(range, toReplace, replaceWith) {
 }
 
 function updateAsesor(ssID, obj) {
-  const sheet = SpreadsheetApp.openById(ssID).getSheetByName('Data');
-  const lastRow = sheet.getLastRow();
-  const lastLetterColumn = columnToLetter(lastRow);
-  const range = sheet.getRange(`A1:${lastLetterColumn}1`).getDisplayValues();
-  const letraEmail = columnToLetter(letraToHead(range, 'EMAIL_USER'));
-  const letraAsesor = columnToLetter(letraToHead(range, 'ASESOR'));
-  const rangeEmail = sheet.getRange(`${letraEmail}2:${letraEmail}${lastRow}`);
-  const rangeAsesor = sheet.getRange(`${letraAsesor}2:${letraAsesor}${lastRow}`);
-  replaceInSheet(rangeEmail, obj.EMAIL, obj.EMAILN);
-  replaceInSheet(rangeAsesor, obj.ASESOR, obj.ASESORN);
+  if (obj.ASESOR.trim().toUpperCase() !== obj.ASESORN.trim().toUpperCase()) {
+    const sheet = SpreadsheetApp.openById(ssID).getSheetByName('Data');
+    const lastRow = sheet.getLastRow();
+    const lastLetterColumn = columnToLetter(lastRow);
+    const range = sheet.getRange(`A1:${lastLetterColumn}1`).getDisplayValues();
+    const letraEmail = columnToLetter(letraToHead(range, 'EMAIL_USER'));
+    const letraAsesor = columnToLetter(letraToHead(range, 'ASESOR'));
+    const rangeEmail = sheet.getRange(`${letraEmail}2:${letraEmail}${lastRow}`);
+    const rangeAsesor = sheet.getRange(`${letraAsesor}2:${letraAsesor}${lastRow}`);
+    replaceInSheet(rangeEmail, obj.EMAIL, obj.EMAILN);
+    replaceInSheet(rangeAsesor, obj.ASESOR, obj.ASESORN);
+    emailNotification(obj);
+  }
   return { row: { ASESOR: obj.ASESORN, EMAIL: obj.EMAILN }, status: 200 };
 }
 

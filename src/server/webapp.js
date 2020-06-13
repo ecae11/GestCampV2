@@ -53,6 +53,7 @@ const loadViewAdminAgencia = () => {
   objs.data = JSON.stringify(todoDataCampanias());
   objs.campanias = JSON.stringify(getCampanias());
   objs.usuarios = JSON.stringify(getUsuarios());
+  objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
   return render('agencias', objs);
 };
 const doGet = (e) => {

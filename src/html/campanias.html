@@ -128,14 +128,14 @@
                 <h2>CAMPAÑAS</h2>
             </div>
             <div class="row clearfix">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"  v-for="camp in campanias" v-if = "camp.STATUS == '1'" >
-                    <div class="info-box-4 hover-zoom-effect" style="cursor: pointer" @click="selectCampania(camp)">
-                        <div class="icon">
-                            <i class="material-icons col-indigo">face</i>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" v-for="camp in campanias" v-if = "camp.STATUS == '1'">
+                    <div class="info-box hover-zoom-effect" style="cursor: pointer" @click="selectCampania(camp)">
+                        <div class="icon bg-indigo">
+                            <i class="material-icons">face</i>
                         </div>
                         <div class="content">
                             <div class="text font-bold">{{camp.TITULO_CAMPANA}}</div>
-                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20">{{camp.DATA.length}}</div>
+                            <div :class="colorAvance(camp.DATA)">{{calcularAvance(camp.DATA)}}%</div>
                         </div>
                     </div>
                 </div>
@@ -649,6 +649,23 @@
     },
 
     methods: {
+      colorAvance:function(arr){
+        var clientes = arr.length;
+        var contatos = _.sumBy(arr, function(o) { return o.RULTIMA!=''; });
+        var avance = (clientes>0) ? _.round(100*contatos/clientes, 2)  : 0;
+        var clase = 'number col-teal';
+        if(avance<=50){
+          clase = "number col-red";
+        }else if(avance>50 && avance<=80) {
+          clase = "number col-orange";
+        }
+        return clase
+      },
+      calcularAvance:function(arr){
+        var clientes = arr.length;
+        var contatos = _.sumBy(arr, function(o) { return o.RULTIMA!=''; });
+        return (clientes>0) ? _.round(100*contatos/clientes, 2)  : 0;
+      },
       openSnakBar:function (msj,tipo) {
         var x = document.getElementById("snackbar");
         this.msjSnackbar.mensaje = msj;
