@@ -213,8 +213,8 @@
         //window.close()
       },
       getData:function() {
-        /*$.ajax({
-          url: "https://script.google.com/a/macros/cajapiura.pe/s/AKfycbwsp0-00BEL3gVcCNfL5ls_ugI56bTKZ7nM7EDEmAXV/dev?v=api",
+        $.ajax({
+          url: url+"?v=api",
           type: "GET",
           dataType: "jsonp",
           crossDomain: true,
@@ -225,7 +225,7 @@
           error: function() {
             return console.error(arguments);
           }
-        })*/
+        })
       }
     }
   });

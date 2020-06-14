@@ -1,0 +1,49 @@
+<section>
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar" style="width: auto">
+        <!-- User Info -->
+        <div class="user-info">
+            <div class="image">
+                <img src="https://gurayyarar.github.io/AdminBSBMaterialDesign/images/user.png" width="48" height="48" alt="User" />
+            </div>
+            <div class="info-container">
+                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userinfo.EMPNOM}}</div>
+                <div class="email">{{userinfo.CORREO}}</div>
+               <!-- <div class="btn-group user-helper-dropdown">
+                    <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                    </ul>
+                </div>-->
+            </div>
+        </div>
+        <!-- #User Info -->
+        <!-- Menu -->
+        <div class="menu">
+            <ul class="list">
+                <li class="header">MENÚ</li>
+                <li v-for="opc in opcmenu ">
+                    <a href="#" @click="redirectMenu(opc)" class="menu-toggle">
+                        <i class="material-icons">{{opc.ICON}}</i>
+                        <span>{{opc.OPCMENU}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- #Menu -->
+        <!-- Footer -->
+        <div class="legal">
+            <div class="copyright">
+                &copy; 2020 <a href="javascript:void(0);"> Caja Piura</a>.
+            </div>
+            <div class="version">
+                <b>Version: </b> 1.0.5
+            </div>
+        </div>
+        <!-- #Footer -->
+    </aside>
+    <!-- #END# Left Sidebar -->
+    <!-- Right Sidebar -->
+
+    <!-- #END# Right Sidebar -->
+</section>

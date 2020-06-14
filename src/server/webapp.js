@@ -44,45 +44,61 @@ const loadIndex = () => {
 };
 const loadCampanias = () => {
   const objs = universalObject();
-  objs.campanias = JSON.stringify(getCampaign());
-  objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
+  // objs.campanias = JSON.stringify(getCampaign());
+  // objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
   return render('campanias', objs);
 };
 const loadViewAdminAgencia = () => {
   const objs = universalObject();
-  objs.agencia = JSON.stringify(getAgenciasFilter());
+  /*
+   objs.agencia = JSON.stringify(getAgenciasFilter());
   objs.data = JSON.stringify(todoDataCampanias());
   objs.campanias = JSON.stringify(getCampanias());
   objs.usuarios = JSON.stringify(getUsuarios());
-  objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
+  objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto()); */
   return render('agencias', objs);
 };
 const loadViewGerenteRegional = () => {
   const objs = universalObject();
-  objs.region = JSON.stringify(getRegionFilter());
+  /* objs.region = JSON.stringify(getRegionFilter());
   objs.agencia = JSON.stringify(getAgenciasFilter());
   objs.data = JSON.stringify(todoDataCampanias());
   objs.campanias = JSON.stringify(getCampanias());
-  objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
+  objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto()); */
   return render('regiones', objs);
 };
 // eslint-disable-next-line no-unused-vars
 const getOAuthToken1 = () => {
   Logger.log(`Current project has ${ScriptApp.getOAuthToken()}`);
 };
-const apiRes = () => {
-  const arr = SpreadsheetApp.openById('1iaiHfjpjRlWWfoelg70UWA7B7uhRZfAH0a0NB0kY_fw')
-    .getSheetByName('Data')
-    .getRange('A1:AO2373')
-    .getValues();
-  const headers = arr.shift();
-  const data = arr.map((r) => {
-    const obj = {};
-    r.forEach((cell, i) => {
-      obj[headers[i]] = cell;
-    });
-    return obj;
-  });
+const apiCampaniasAsesor = () => {
+  const data = {};
+  data.campanias = getCampaign();
+  data.opcresultcontacto = getOpcResultadoContacto();
+  // Logger.log(data);
+  return ContentService.createTextOutput(`on_result(${JSON.stringify(data)})`).setMimeType(
+    ContentService.MimeType.JAVASCRIPT
+  );
+};
+const apiAdministradoresAgencia = () => {
+  const data = {};
+  data.agencia = getAgenciasFilter();
+  data.data = todoDataCampanias();
+  data.campanias = getCampanias();
+  data.usuarios = getUsuarios();
+  data.opcresultcontacto = getOpcResultadoContacto();
+  // Logger.log(data);
+  return ContentService.createTextOutput(`on_result(${JSON.stringify(data)})`).setMimeType(
+    ContentService.MimeType.JAVASCRIPT
+  );
+};
+const apiGerenteRegional = () => {
+  const data = {};
+  data.region = getRegionFilter();
+  data.agencia = getAgenciasFilter();
+  data.data = todoDataCampanias();
+  data.campanias = getCampanias();
+  data.opcresultcontacto = getOpcResultadoContacto();
   // Logger.log(data);
   return ContentService.createTextOutput(`on_result(${JSON.stringify(data)})`).setMimeType(
     ContentService.MimeType.JAVASCRIPT
@@ -95,7 +111,9 @@ const doGet = (e) => {
   Route.path('campanias', loadCampanias);
   Route.path('agencias', loadViewAdminAgencia);
   Route.path('region', loadViewGerenteRegional);
-  Route.path('api', apiRes);
+  Route.path('apicampaniasasesor', apiCampaniasAsesor);
+  Route.path('apigerenteregional', apiGerenteRegional);
+  Route.path('apiadministradoragencia', apiAdministradoresAgencia);
   if (Route[e.parameters.v]) {
     return Route[e.parameters.v]();
   }

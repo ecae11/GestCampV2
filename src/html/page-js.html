@@ -1,0 +1,63 @@
+<!-- Jquery Core Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap/js/bootstrap.js"></script>
+
+<!-- Slimscroll Plugin Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+<!-- Bootstrap Notify Plugin Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap-notify/bootstrap-notify.js"></script>
+
+<!-- Waves Effect Plugin Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/node-waves/waves.js"></script>
+
+<!-- Custom Js -->
+<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/js/admin.js"></script>
+
+<script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vue-select@latest"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@4.1.0/dist/echarts.js"></script>
+<script src="https://drive.google.com/uc?export=view&id=1RU1vovT-lo657FWsiZl4sFAx1_POptf5" type="application/javascript"></script>
+
+<script>
+  function showNotification (colorName, text, placementFrom, placementAlign, animateEnter, animateExit) {
+    if (colorName === null || colorName === '') { colorName = 'bg-black'; }
+    if (text === null || text === '') { text = 'Turning standard Bootstrap alerts'; }
+    if (animateEnter === null || animateEnter === '') { animateEnter = 'animated fadeInDown'; }
+    if (animateExit === null || animateExit === '') { animateExit = 'animated fadeOutUp'; }
+    var allowDismiss = true;
+
+    $.notify({
+        message: text
+      },
+      {
+        type: colorName,
+        allow_dismiss: allowDismiss,
+        newest_on_top: true,
+        timer: 1000,
+        placement: {
+          from: placementFrom,
+          align: placementAlign
+        },
+        animate: {
+          enter: animateEnter,
+          exit: animateExit
+        },
+        template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
+          '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+          '<span data-notify="icon"></span> ' +
+          '<span data-notify="title">{1}</span> ' +
+          '<span data-notify="message">{2}</span>' +
+          '<div class="progress" data-notify="progressbar">' +
+          '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+          '</div>' +
+          '<a href="{3}" target="{4}" data-notify="url"></a>' +
+          '</div>'
+      });
+  }
+</script>

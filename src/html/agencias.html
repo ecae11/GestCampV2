@@ -10,37 +10,8 @@
 
     <title>Gestor de Campañas</title>
 
-    <!-- Custom fonts for this template-->
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <?!= include("page-css"); ?>
 
-    <!-- Bootstrap Core Css -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Waves Effect Css -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/node-waves/waves.css" rel="stylesheet" />
-
-    <!-- Animation Css -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/animate-css/animate.css" rel="stylesheet" />
-
-    <!-- Custom Css -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/css/style.css" rel="stylesheet">
-
-    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/css/themes/all-themes.css" rel="stylesheet" />
-
-    <!--ht-wt  -->
-    <link href="https://drive.google.com/uc?export=view&id=1jebnoMM0CkzUgJe38udT4xi4fHGV9RGg" rel="stylesheet">
-    <style>
-        section.content {
-            margin: 100px 15px 0 225px;
-            -moz-transition: 0.5s;
-            -o-transition: 0.5s;
-            -webkit-transition: 0.5s;
-            transition: 0.5s;
-        }
-    </style>
 </head>
 
 <body class="theme-indigo">
@@ -81,55 +52,7 @@
 </nav>
 <!-- #Top Bar -->
 <div id="app">
-    <section>
-        <!-- Left Sidebar -->
-        <aside id="leftsidebar" class="sidebar" style="width: auto">
-            <!-- User Info -->
-            <div class="user-info">
-                <div class="image">
-                    <img src="https://gurayyarar.github.io/AdminBSBMaterialDesign/images/user.png" width="48" height="48" alt="User" />
-                </div>
-                <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userinfo.EMPNOM}} {{userinfo.EMPAPP}}</div>
-                    <div class="email">{{userinfo.CORREO}}</div>
-                    <div class="btn-group user-helper-dropdown">
-                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- #User Info -->
-            <!-- Menu -->
-            <div class="menu">
-                <ul class="list">
-                    <li class="header">MENÚ</li>
-                    <li v-for="opc in opcmenu ">
-                        <a href="#" @click="redirectMenu(opc)" class="menu-toggle">
-                            <i class="material-icons">{{opc.ICON}}</i>
-                            <span>{{opc.OPCMENU}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <!-- #Menu -->
-            <!-- Footer -->
-            <div class="legal">
-                <div class="copyright">
-                    &copy; 2020 <a href="javascript:void(0);"> Caja Piura</a>.
-                </div>
-                <div class="version">
-                    <b>Version: </b> 1.0.5
-                </div>
-            </div>
-            <!-- #Footer -->
-        </aside>
-        <!-- #END# Left Sidebar -->
-        <!-- Right Sidebar -->
-
-        <!-- #END# Right Sidebar -->
-    </section>
+    <?!= include("sidebar"); ?>
 
     <section class="content" >
         <div class="container-fluid">
@@ -139,15 +62,15 @@
                         Seguimiento de Campañas
                     </h2>
                     <ul class="header-dropdown m-r--5">
+                        <li>
+                            <a href="javascript:void(0);" data-toggle="cardloading" data-loading-effect="timer"  @click="refreshData">
+                                <i class="material-icons">loop</i>
+                            </a>
+                        </li>
                         <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
                                 <i class="material-icons">more_vert</i>
                             </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Action</a></li>
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -190,16 +113,24 @@
                                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                                         <i class="material-icons">more_vert</i>
                                                     </a>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li><a href="javascript:void(0);">Action</a></li>
-                                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                                    </ul>
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="body">
-                                            <v-chart id="embudoComercial" clase="echarts ht-300 ht-xl-400 " key="embudoComercial" :options="embudoComercial" autoresize :theme="theme"></v-chart>
+                                            <div class="loader" v-if="!cargaCompleta" style="text-align: center">
+                                                <div class="preloader pl-size-sm">
+                                                    <div class="spinner-layer pl-indigo">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p>Cargando...</p>
+                                            </div>
+                                            <v-chart v-if="cargaCompleta" id="embudoComercial" clase="echarts ht-300 ht-xl-400 " key="embudoComercial" :options="embudoComercial" autoresize :theme="theme"></v-chart>
                                         </div>
                                     </div>
                                 </div>
@@ -212,16 +143,24 @@
                                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                                         <i class="material-icons">more_vert</i>
                                                     </a>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li><a href="javascript:void(0);">Action</a></li>
-                                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                                    </ul>
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="body">
-                                            <v-chart id="graficoAvance" clase="echarts ht-300 ht-xl-400 " key="graficoAvance" :options="barrasagrupadas" autoresize :theme="theme"></v-chart>
+                                            <div class="loader" v-if="!cargaCompleta" style="text-align: center">
+                                                <div class="preloader pl-size-sm">
+                                                    <div class="spinner-layer pl-indigo">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p>Cargando...</p>
+                                            </div>
+                                            <v-chart v-if="cargaCompleta" id="graficoAvance" clase="echarts ht-300 ht-xl-400 " key="graficoAvance" :options="barrasagrupadas" autoresize :theme="theme"></v-chart>
                                         </div>
                                     </div>
                                 </div>
@@ -234,16 +173,25 @@
                                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                                         <i class="material-icons">more_vert</i>
                                                     </a>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li><a href="javascript:void(0);">Action</a></li>
-                                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                                    </ul>
+
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="body">
-                                            <v-chart id="graficoAvanceAsesor" clase="echarts ht-300 ht-xl-300 " key="graficoAvanceAsesor" :options="graficoAvanceAsesor" autoresize :theme="theme"></v-chart>
+                                            <div class="loader" v-if="!cargaCompleta" style="text-align: center">
+                                                <div class="preloader pl-size-sm">
+                                                    <div class="spinner-layer pl-indigo">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p>Cargando...</p>
+                                            </div>
+                                            <v-chart v-if="cargaCompleta" id="graficoAvanceAsesor" clase="echarts ht-300 ht-xl-300 " key="graficoAvanceAsesor" :options="graficoAvanceAsesor" autoresize :theme="theme"></v-chart>
                                         </div>
                                     </div>
                                 </div>
@@ -256,16 +204,24 @@
                                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                                         <i class="material-icons">more_vert</i>
                                                     </a>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li><a href="javascript:void(0);">Action</a></li>
-                                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                                    </ul>
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="body">
-                                            <v-chart id="graficoAvanceOpcRespuesta" clase="echarts ht-300 ht-xl-300 " key="graficoAvanceOpcRespuesta" :options="graficoAvanceOpcRespuesta" autoresize :theme="theme"></v-chart>
+                                            <div class="loader" v-if="!cargaCompleta" style="text-align: center">
+                                                <div class="preloader pl-size-sm">
+                                                    <div class="spinner-layer pl-indigo">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p>Cargando...</p>
+                                            </div>
+                                            <v-chart v-if="cargaCompleta" id="graficoAvanceOpcRespuesta" clase="echarts ht-300 ht-xl-300 " key="graficoAvanceOpcRespuesta" :options="graficoAvanceOpcRespuesta" autoresize :theme="theme"></v-chart>
                                         </div>
                                     </div>
                                 </div>
@@ -274,7 +230,20 @@
                         </div>
                         <div role="tabpanel" class="tab-pane fade " id="home_only_icon_title">
                             <div class="row">
-                                <div class="table-responsive  col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="loader" v-if="!cargaCompleta" style="text-align: center">
+                                    <div class="preloader pl-size-sm">
+                                        <div class="spinner-layer pl-indigo">
+                                            <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>Cargando...</p>
+                                </div>
+                                <div v-if="cargaCompleta" class="table-responsive  col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <!--  <div class="col-md-4" style="margin-bottom: -20px">
                                         <div class="input-group">
                                         <span class="input-group-addon">
@@ -380,43 +349,14 @@
     </section>
 </div>
 
-
-<!-- Jquery Core Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Core Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap/js/bootstrap.js"></script>
-
-<!-- Select Plugin Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap-select/js/bootstrap-select.js"></script>
-
-<!-- Slimscroll Plugin Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
-
-<!-- Waves Effect Plugin Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/node-waves/waves.js"></script>
-
-<!-- Custom Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/js/admin.js"></script>
-
-<script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
-<script src="https://unpkg.com/vue-select@latest"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/echarts@4.1.0/dist/echarts.js"></script>
-<script src="https://drive.google.com/uc?export=view&id=1RU1vovT-lo657FWsiZl4sFAx1_POptf5" type="application/javascript"></script>
+<?!= include("page-js"); ?>
 
 <script>
   //
   var userinfo = <?!= userinfo ?>;
   var opcmenu = <?!= opcmenu ?>;
   var url = <?= ScriptApp.getService().getUrl() ?>;
-  var data_agencia = <?!= agencia ?>;
-  var data = <?!= data ?>;
-  var campanias = <?!= campanias ?>;
-  var opcresultcontacto = <?!= opcresultcontacto ?>;
-  var usuarios = <?!= usuarios ?>;
+  url = <?= ScriptApp.getService().getUrl() ?>;
 
   function comasNumero(num) {
     var value_str = String(num);
@@ -478,18 +418,19 @@
   var apps = new Vue({
     el: '#app',
     data: {
+      cargaCompleta:false,
       url: url,
       userinfo: userinfo,
       opcmenu: opcmenu,
-      agencias: data_agencia,
-      data: data,
+      agencias: [],
+      data: [],
       dataFull:[],
       dataFullBk:[],
-      opcresultcontacto:opcresultcontacto,
+      opcresultcontacto:[],
       agenciaSelected: [],
-      campanias: campanias,
+      campanias: [],
       campaniaSelected: [],
-      usuarios:usuarios,
+      usuarios:[],
       usuariosSearch:[],
       usuarioSelectedSearch:null,
       usuarioSelected:{
@@ -564,73 +505,15 @@
       agenciaSelected:function(current,old) {
         console.log("agenciaSelected",current,"old",old);
         this.filterAll();
-/*        console.log("current",current,"old",old);
-        var values = [];
-        current.forEach(function(el) {
-          values.push(el.CODAGE);
-        });
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.avanceAsesor()): this.avanceAsesor();
-        values = [];
-        this.campaniaSelected.forEach(function(el) {
-          values.push(el.ID_CAMPANIA);
-        });
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
-        this.dataEspecialFiltrada = this.dataEspecialFiltrada.filter(function (val) {
-          return _.includes( _.toUpper(val.ASESOR.trim()),_.toUpper(this.search));
-        }.bind(this));
-        this.dataNormalBk = this.dataEspecialFiltrada;*/
-        //console.log("campaniaSelected",this.dataEspecialFiltrada,values);
       },
       campaniaSelected:function(current,old) {
         console.log("campaniaSelected",current,"old",old);
-        this.filterAll();
-        /*var values = [];
-        current.forEach(function(el) {
-          values.push(el.ID_CAMPANIA);
-        });
-        this.dataFull = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.dataFullBk): this.dataFullBk;
-
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['ID_CAMP'],values,this.avanceAsesor()): this.avanceAsesor();
-        values = [];
-        this.agenciaSelected.forEach(function(el) {
-          values.push(el.CODAGE);
-        });
-        this.dataFull = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataFull): this.dataFull;
-        this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
-        this.dataEspecialFiltrada = this.dataEspecialFiltrada.filter(function (val) {
-          return _.includes( _.toUpper(val.ASESOR.trim()),_.toUpper(this.search));
-        }.bind(this));
-        this.dataNormalBk = this.dataEspecialFiltrada;
-
-        this.graficoAvance2();
-        this.graficoEmbudoComercial();
-        this.rankingAsesorTop();
-        this.graficoAvanceOpc();*/
-
-      }
+        this.filterAll();      }
     },
     mounted() {
     },
     created: function () {
-      console.log("userinfo",this.userinfo);
-      console.log("opcmenu",this.opcmenu);
-      console.log("agencias",this.agencias);
-      console.log("data",this.data);
-      console.log("usuarios",this.usuarios);
-      console.log("campañas",this.campanias);
-      console.log("opcresultcontacto",this.opcresultcontacto);
-      var data_total = this.dataTotal();
-      this.dataFull = data_total;
-      this.dataFullBk =data_total;
-      console.log("dataFullBk",this.dataFullBk);
-      this.dataEspecialFiltrada = this.avanceAsesor();
-      this.dataNormalBk = this.dataEspecialFiltrada;
-      this.usuariosSearch = _.uniqBy(this.dataFullBk, 'ASESOR');
-      this.graficoAvance2();
-      this.graficoEmbudoComercial();
-      this.rankingAsesorTop();
-      this.graficoAvanceOpc();
-
+      this.cargarData();
     },
     computed: {
       sortedRows:function() {
@@ -661,8 +544,49 @@
         return data.slice(this.offset, this.limit);
       }
     },
-
     methods: {
+      refreshData:function(){
+        console.log("refresData");
+        this.cargarData();
+      },
+      cargarData:function(){
+        console.log("cargarData");
+        this.cargaCompleta = false;
+        $.ajax({
+          url: url+"?v=apiadministradoragencia",
+          type: "GET",
+          dataType: "jsonp",
+          crossDomain: true,
+          jsonpCallback: "on_result",
+          context: this,
+          success: function() {
+
+            var response = arguments[0];
+            this.agencias = response.agencia;
+            this.data = response.data;
+            this.campanias = response.campanias;
+            this.usuarios = response.usuarios;
+            this.opcresultcontacto = response.opcresultcontacto;
+
+            var data_total = this.dataTotal();
+            this.dataFull = data_total;
+            this.dataFullBk =data_total;
+            //console.log("dataFullBk",this.dataFullBk);
+            this.dataEspecialFiltrada = this.avanceAsesor();
+            this.dataNormalBk = this.dataEspecialFiltrada;
+            this.usuariosSearch = _.uniqBy(this.dataFullBk, 'ASESOR');
+            this.graficoAvance2();
+            this.graficoEmbudoComercial();
+            this.rankingAsesorTop();
+            this.graficoAvanceOpc();
+            this.cargaCompleta = true;
+            //return console.log(arguments);
+          },
+          error: function(err) {
+            return console.error(arguments);
+          }
+        })
+      },
       filterAll:function(){
         this.dataFull = this.dataFullBk;
         this.dataEspecialFiltrada = this.dataNormalBk;
@@ -690,6 +614,7 @@
           values.push(el.CODAGE);
         });
         this.dataEspecialFiltrada = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataEspecialFiltrada): this.dataEspecialFiltrada;
+        this.dataFull = values.length > 0 ?  this.filterKeys(['CODAGE'],values,this.dataFull): this.dataFull;
       },
       filterCampanaCombo:function(){
         var values = [];
@@ -1046,41 +971,7 @@
         });
         return arrTotal;
       },
-      showNotification:function(colorName, text, placementFrom, placementAlign, animateEnter, animateExit) {
-        if (colorName === null || colorName === '') { colorName = 'bg-black'; }
-        if (text === null || text === '') { text = 'Turning standard Bootstrap alerts'; }
-        if (animateEnter === null || animateEnter === '') { animateEnter = 'animated fadeInDown'; }
-        if (animateExit === null || animateExit === '') { animateExit = 'animated fadeOutUp'; }
-        var allowDismiss = true;
 
-        $.notify({
-            message: text
-          },
-          {
-            type: colorName,
-            allow_dismiss: allowDismiss,
-            newest_on_top: true,
-            timer: 1000,
-            placement: {
-              from: placementFrom,
-              align: placementAlign
-            },
-            animate: {
-              enter: animateEnter,
-              exit: animateExit
-            },
-            template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
-              '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-              '<span data-notify="icon"></span> ' +
-              '<span data-notify="title">{1}</span> ' +
-              '<span data-notify="message">{2}</span>' +
-              '<div class="progress" data-notify="progressbar">' +
-              '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-              '</div>' +
-              '<a href="{3}" target="{4}" data-notify="url"></a>' +
-              '</div>'
-          });
-      },
 
       actualizarAsesor:function(){
         this.process = true;
@@ -1105,7 +996,7 @@
           this.dataEspecialFiltrada = this.avanceAsesor();
 
           $('#infoUserModal').modal('toggle');
-          //this.showNotification("alert-success", "Se actualizó correctamente", "bottom", "center", "", "");
+          showNotification("alert-success", "Se actualizó correctamente", "bottom", "center", "", "");
         }.bind(this)).actualizarAsesor(this.asesorEdit);
 
       },
@@ -1138,7 +1029,7 @@
         var arrLegend = [];
         var arrCategorias =[];
         //console.log("campañas data",)
-        console.log("groupCamp2",groupCamp);
+        //console.log("groupCamp2",groupCamp);
         Object.keys(groupCamp).forEach((a)=>{
           //this.legend.push(a);
           //var campaña = this.campanias.filter((a)=>{return a.ID_CAMPANIA === a});  _.find(this.campanias,['ID_CAMPANIA',a]);
@@ -1150,8 +1041,8 @@
           var arrData = [];
           var groupAgencia = _.groupBy(groupCamp[a],'CODAGE');
           var arrCategoria = [];
-          console.log("keys",Object.keys(groupAgencia));
-          console.log("groupAgencia",groupAgencia);
+          //console.log("keys",Object.keys(groupAgencia));
+          //console.log("groupAgencia",groupAgencia);
           Object.keys(groupAgencia).forEach((b)=>{
             var agencia = this.agencias.filter((e)=>{return e.CODAGE === b})[0].NOMAGE;
             var clientes = groupAgencia[b].length;
@@ -1159,7 +1050,7 @@
             var avance = (clientes>0) ? _.round(100*contatos/clientes, 2)  : 0;
             arrData.push(avance);
             arrCategoria.push(agencia);
-            console.log("agenciaSelect",agencia);
+            //console.log("agenciaSelect",agencia);
           });
           obj.data = arrData;
           //this.series.push(obj);
@@ -1167,7 +1058,7 @@
           //this.category = arrCategoria;
           arrSeries.push(obj);
         });
-        console.log("arrSeries2",arrSeries);
+        //console.log("arrSeries2",arrSeries);
         this.barrasagrupadas = {
           tooltip : {
             trigger: 'axis',
@@ -1229,7 +1120,7 @@
       graficoAvance:function(){
 
         var groupCamp = _.groupBy(this.dataEspecialFiltrada,'CAMPANA');
-        console.log("groupCamp",groupCamp);
+        //console.log("groupCamp",groupCamp);
         var arrSeries = [];
         var arrLegend = [];
         var arrCategorias =[];
@@ -1243,7 +1134,7 @@
           var arrData = [];
           var groupAgencia = _.groupBy(groupCamp[a],'AGENCIA');
           var arrCategoria = [];
-          console.log("keys",Object.keys(groupAgencia));
+          //console.log("keys",Object.keys(groupAgencia));
           Object.keys(groupAgencia).forEach((b)=>{
             var clientes = _.sumBy(groupAgencia[b], function(o) { return o.CLIENTES; });
             var contatos = _.sumBy(groupAgencia[b], function(o) { return o.CONTACTO; });
@@ -1258,9 +1149,9 @@
           arrSeries.push(obj);
 
         });
-        console.log("legend",arrLegend);
-        console.log("category",arrCategorias);
-        console.log("series",arrSeries);
+        //console.log("legend",arrLegend);
+        //console.log("category",arrCategorias);
+        //console.log("series",arrSeries);
 
         //this.identificador="barrasagrupadas";
 
@@ -1337,8 +1228,8 @@
             value:avance
           })
         });
-        console.log("arrData",arrData);
-        console.log("arrLegend",arrLegend);
+        //console.log("arrData",arrData);
+        //console.log("arrLegend",arrLegend);
 
         this.graficoAvanceOpcRespuesta = {
           tooltip: {
@@ -1371,7 +1262,7 @@
       rankingAsesorTop:function(){
         var asesores =  _.groupBy(this.dataFull,'ASESOR');
         var arrAvance = [];
-        console.log("asesores",asesores);
+        //console.log("asesores",asesores);
         Object.keys(asesores).forEach((a)=>{
           var contacto = _.filter(asesores[a], (o) => {return o.RULTIMA !=='' ; }).length;
           var avance =  _.round(100*contacto/asesores[a].length, 2);
@@ -1381,9 +1272,9 @@
             cant:asesores[a]
           });
         });
-        console.log("Avance",arrAvance);
+        //console.log("Avance",arrAvance);
         var topAsesores = _.take(_.orderBy(arrAvance,['avance'],['asc']),5);
-        console.log("top 5 malos",topAsesores);
+        //console.log("top 5 malos",topAsesores);
         var arrCategoria = [];
         var arrData = [];
         topAsesores.forEach((b)=>{
@@ -1463,8 +1354,8 @@
         });
 
 
-        console.log("legend",arrLegend);
-        console.log("arrData",arrData);
+        //console.log("legend",arrLegend);
+        //console.log("arrData",arrData);
 
         //this.identificador="barrasagrupadas";
 

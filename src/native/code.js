@@ -171,3 +171,8 @@ function actualizarAsesor(obj) {
   }
   return { row: obj.ASESOR, status: 400 };
 }
+
+// eslint-disable-next-line no-unused-vars
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}
