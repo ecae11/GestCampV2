@@ -179,6 +179,7 @@
 <script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/js/admin.js"></script>
 
 <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
   //
@@ -199,6 +200,7 @@
     created: function () {
       console.log("userinfo",this.userinfo);
       console.log("opcmenu",this.opcmenu);
+      this.getData();
     },
     computed: {
     },
@@ -209,6 +211,21 @@
         window.open(url,'_blank');
         window.open('','_self').close();
         //window.close()
+      },
+      getData:function() {
+        /*$.ajax({
+          url: "https://script.google.com/a/macros/cajapiura.pe/s/AKfycbwsp0-00BEL3gVcCNfL5ls_ugI56bTKZ7nM7EDEmAXV/dev?v=api",
+          type: "GET",
+          dataType: "jsonp",
+          crossDomain: true,
+          jsonpCallback: "on_result",
+          success: function() {
+            return console.log(arguments);
+          },
+          error: function() {
+            return console.error(arguments);
+          }
+        })*/
       }
     }
   });

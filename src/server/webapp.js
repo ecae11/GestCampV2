@@ -66,6 +66,28 @@ const loadViewGerenteRegional = () => {
   objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
   return render('regiones', objs);
 };
+// eslint-disable-next-line no-unused-vars
+const getOAuthToken1 = () => {
+  Logger.log(`Current project has ${ScriptApp.getOAuthToken()}`);
+};
+const apiRes = () => {
+  const arr = SpreadsheetApp.openById('1iaiHfjpjRlWWfoelg70UWA7B7uhRZfAH0a0NB0kY_fw')
+    .getSheetByName('Data')
+    .getRange('A1:AO2373')
+    .getValues();
+  const headers = arr.shift();
+  const data = arr.map((r) => {
+    const obj = {};
+    r.forEach((cell, i) => {
+      obj[headers[i]] = cell;
+    });
+    return obj;
+  });
+  // Logger.log(data);
+  return ContentService.createTextOutput(`on_result(${JSON.stringify(data)})`).setMimeType(
+    ContentService.MimeType.JAVASCRIPT
+  );
+};
 const doGet = (e) => {
   Logger.log(e.parameters);
   Logger.log(e.parameters.v);
@@ -73,6 +95,7 @@ const doGet = (e) => {
   Route.path('campanias', loadCampanias);
   Route.path('agencias', loadViewAdminAgencia);
   Route.path('region', loadViewGerenteRegional);
+  Route.path('api', apiRes);
   if (Route[e.parameters.v]) {
     return Route[e.parameters.v]();
   }
