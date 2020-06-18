@@ -6,10 +6,14 @@ import getOpcMenu from '../google-apps-script/opcMenu';
 import {
   getAgenciasFilter,
   getCampanias,
+  // eslint-disable-next-line import/named
+  getCampById,
   getRegionFilter,
   getUsuarios,
   todoDataCampanias,
 } from '../google-apps-script/datafilter';
+// eslint-disable-next-line import/named
+import { actualizarLLamada } from './post';
 
 const Route = {};
 Route.path = function (route, callback) {
@@ -38,33 +42,17 @@ const universalObject = () => {
 const loadIndex = () => {
   const objs = universalObject();
   return render('index', objs);
-  /* .setSandboxMode(HtmlService.SandboxMode.IFRAME) // This method now has no effect — previously it set the sandbox mode used for client-side scripts
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1') // important tag for Responsiveness
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL); // Sets the state of the page's X-Frame-Options header, which controls clickjacking prevention. */
 };
 const loadCampanias = () => {
   const objs = universalObject();
-  // objs.campanias = JSON.stringify(getCampaign());
-  // objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto());
   return render('campanias', objs);
 };
 const loadViewAdminAgencia = () => {
   const objs = universalObject();
-  /*
-   objs.agencia = JSON.stringify(getAgenciasFilter());
-  objs.data = JSON.stringify(todoDataCampanias());
-  objs.campanias = JSON.stringify(getCampanias());
-  objs.usuarios = JSON.stringify(getUsuarios());
-  objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto()); */
   return render('agencias', objs);
 };
 const loadViewGerenteRegional = () => {
   const objs = universalObject();
-  /* objs.region = JSON.stringify(getRegionFilter());
-  objs.agencia = JSON.stringify(getAgenciasFilter());
-  objs.data = JSON.stringify(todoDataCampanias());
-  objs.campanias = JSON.stringify(getCampanias());
-  objs.opcresultcontacto = JSON.stringify(getOpcResultadoContacto()); */
   return render('regiones', objs);
 };
 // eslint-disable-next-line no-unused-vars
@@ -104,9 +92,34 @@ const apiGerenteRegional = () => {
     ContentService.MimeType.JAVASCRIPT
   );
 };
+const apiRegistrarLLamada = (e) => {
+  Logger.log('apiRegistrarLLamada');
+  // Logger.log(e);
+  const json = Object.keys(e).filter((k) => {
+    return k.length > 20;
+  });
+  // Logger.log(json[0]);
+  // eslint-disable-next-line no-eval
+  const data = JSON.parse(json[0]);
+  const camp = getCampById(data.ID_CAMP);
+  let ret = {};
+  Logger.log(data);
+  if (camp.length > 0) {
+    const ssid = camp[0].SHEET_DATA;
+    ret = actualizarLLamada(ssid, data);
+  }
+
+  return ContentService.createTextOutput(`on_result(${JSON.stringify(ret)})`).setMimeType(
+    ContentService.MimeType.JAVASCRIPT
+  );
+};
 const doGet = (e) => {
+  Logger.log(e);
+  Logger.log('------------------------');
   Logger.log(e.parameters);
+  Logger.log('------------------------');
   Logger.log(e.parameters.v);
+  Logger.log('------------------------');
   Route.path('home', loadIndex);
   Route.path('campanias', loadCampanias);
   Route.path('agencias', loadViewAdminAgencia);
@@ -114,7 +127,9 @@ const doGet = (e) => {
   Route.path('apicampaniasasesor', apiCampaniasAsesor);
   Route.path('apigerenteregional', apiGerenteRegional);
   Route.path('apiadministradoragencia', apiAdministradoresAgencia);
+  Route.path('postregistrarLLamada', apiRegistrarLLamada);
   if (Route[e.parameters.v]) {
+    if (e.parameters.v.includes('postregistrarLLamada')) return apiRegistrarLLamada(e.parameters);
     return Route[e.parameters.v]();
   }
   return render('home');

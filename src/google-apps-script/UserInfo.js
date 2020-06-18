@@ -1,9 +1,10 @@
 import { getDataForSheetName } from '../server/utils';
 import getGmailAliases from './gmail.alias';
+import ssIdConfig from './config';
 
 const getRolUser = () => {
   const email = getGmailAliases()[0];
-  const dataSheet = getDataForSheetName('', 'Rol');
+  const dataSheet = getDataForSheetName(ssIdConfig(), 'Rol');
   let rol = 'User';
 
   if (dataSheet.length > 1) {
@@ -23,7 +24,7 @@ const getRolUser = () => {
 };
 
 const getPuesto = (codpue) => {
-  const dataSheet = getDataForSheetName('', 'Puesto');
+  const dataSheet = getDataForSheetName(ssIdConfig(), 'Puesto');
   let arr = {};
   if (dataSheet.length > 1) {
     // eslint-disable-next-line no-plusplus
@@ -45,7 +46,7 @@ const getPuesto = (codpue) => {
 
 const getInfoUser = () => {
   const email = getGmailAliases()[0];
-  const dataSheet = getDataForSheetName('', 'Empleado');
+  const dataSheet = getDataForSheetName(ssIdConfig(), 'Empleado');
   const arr = [];
   let objInfo = {};
   const rol = getRolUser();

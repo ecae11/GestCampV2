@@ -1,9 +1,10 @@
 import { getDataForSheetName } from '../server/utils';
 // eslint-disable-next-line import/named
 import { getDataCampaignForEmail } from './datafilter';
+import ssIdConfig from './config';
 
 const getCampaign = () => {
-  const dataSheet = getDataForSheetName('', 'Campanias');
+  const dataSheet = getDataForSheetName(ssIdConfig(), 'Campanias');
   const arr = [];
 
   if (dataSheet.length > 1) {

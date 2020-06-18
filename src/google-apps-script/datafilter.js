@@ -1,6 +1,7 @@
 import getGmailAliases from './gmail.alias';
-import { dataToJson, filterByKeyValue, getDataForSheetName } from '../server/utils';
+import { columnToLetter, dataToJson, filterByKeyValue, getDataForSheetName } from '../server/utils';
 import { getInfoUser } from './UserInfo';
+import ssIdConfig from './config';
 
 const functionZ = (data, permisos) => {
   let dt = [];
@@ -68,9 +69,9 @@ const getDataCampaignForEmail = (ssID) => {
 
 const getPermisos = (infoUser) => {
   const arrPermisos = [];
-  const nivelAccesos = dataToJson(getDataForSheetName('', 'NivelAcceso'));
+  const nivelAccesos = dataToJson(getDataForSheetName(ssIdConfig(), 'NivelAcceso'));
   const accesoPuesto = dataToJson(
-    getDataForSheetName('', 'AccesoPuesto'),
+    getDataForSheetName(ssIdConfig(), 'AccesoPuesto'),
     'CODPUE',
     infoUser.PUESTO.CODPUE
   );
@@ -106,7 +107,7 @@ const getDataCampLvlAccess = (ssID, sheet, arrPermisos) => {
 
 const todoDataCampanias = () => {
   const arrRetur = [];
-  const arrCamp = dataToJson(getDataForSheetName('', 'Campanias'), '', '');
+  const arrCamp = dataToJson(getDataForSheetName(ssIdConfig(), 'Campanias'), '', '');
   const arrPermisos = getPermisos(getInfoUser());
   arrCamp.forEach((obj) => {
     // eslint-disable-next-line radix
@@ -127,20 +128,45 @@ const getRegionFilter = () => {
   });
   Logger.log('arrPermisos-getRegionFilter:');
   Logger.log(arrPermisos);
-  return getDataCampLvlAccess('', 'Region', arrPermisos);
+  return getDataCampLvlAccess(ssIdConfig(), 'Region', arrPermisos);
 };
 
 const getAgenciasFilter = () => {
   const arrPermisos = getPermisos(getInfoUser());
-  return getDataCampLvlAccess('', 'Agencia', arrPermisos);
+  return getDataCampLvlAccess(ssIdConfig(), 'Agencia', arrPermisos);
 };
 const getUsuarios = () => {
   const arrPermisos = getPermisos(getInfoUser());
-  return getDataCampLvlAccess('', 'Empleado', arrPermisos);
+  return getDataCampLvlAccess(ssIdConfig(), 'Empleado', arrPermisos);
 };
 
 const getCampanias = () => {
-  return dataToJson(getDataForSheetName('', 'Campanias'), 'STATUS', '1');
+  return dataToJson(getDataForSheetName(ssIdConfig(), 'Campanias'), 'STATUS', '1');
+};
+
+const getCampById = (id) => {
+  const wb = SpreadsheetApp.openById(ssIdConfig());
+  // SpreadsheetApp.getActiveSpreadsheet();
+  const ss = wb.getSheetByName('Campanias');
+  const lastLetterColumn = columnToLetter(ss.getLastColumn());
+  const lastRow = ss.getLastRow();
+  const dataSheet = ss.getRange(`A1:${lastLetterColumn}${lastRow}`).getDisplayValues();
+  const arr = [];
+
+  if (dataSheet.length > 1) {
+    dataSheet.forEach((b, index0) => {
+      const obj = {};
+      if (index0 > 0) {
+        dataSheet[0].forEach((a, index) => {
+          obj[a] = b[index];
+        });
+      }
+      if (obj.ID_CAMPANIA === id) {
+        arr.push(obj);
+      }
+    });
+  }
+  return arr;
 };
 
 export {
@@ -150,4 +176,5 @@ export {
   getAgenciasFilter,
   getCampanias,
   getUsuarios,
+  getCampById,
 };

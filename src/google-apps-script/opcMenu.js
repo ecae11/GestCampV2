@@ -1,8 +1,10 @@
 import { columnToLetter } from '../server/utils';
 import { getInfoUser } from './UserInfo';
+import ssIdConfig from './config';
 
 const getOpcMenu = () => {
-  const wb = SpreadsheetApp.getActiveSpreadsheet();
+  const wb = SpreadsheetApp.openById(ssIdConfig());
+  // SpreadsheetApp.getActiveSpreadsheet();
   const ss = wb.getSheetByName('Menu');
   const lastLetterColumn = columnToLetter(ss.getLastColumn());
   const lastRow = ss.getLastRow();

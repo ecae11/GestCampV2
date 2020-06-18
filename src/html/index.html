@@ -138,14 +138,18 @@
                         </div>-->
                         <div class="body">
                             <div class="row">
+
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <h2>Hola {{userinfo.EMPNOM}}!</h2>
-                                    <p class="m-b-30">Estimado colaborador, en estos tiempos de adversidad, necesitamos  de tu apoyo, para reactivar las colocaciones de Caja Piura y consecuentemente la economía de nuestro país. Hoy más que nunca tenemos que trabajar unidos por nuestra Caja Piura, en beneficio de todos nosotros, de nuestras familias y nuestros clientes. Por ello, requerimos de tu talento para impulsar las campañas, en la cual necesitamos 2 horas de tu tiempo para realizar las llamadas a nuestros clientes vigentes y brindarles el mensaje integrador y beneficios del producto durante 5 días.</p>
-                                    <p class="m-b-30">Superar esta crisis es compromiso de todos, por eso tu apoyo es indispensable. Se dará seguimiento de las llamadas realizadas para temas de calidad en el servicio.</p>
-                                    <p class="m-b-30 font-bold">¡Recordemos que juntos hacemos el cambio!</p>
+                                    <img src="https://drive.google.com/uc?export=view&id=1B1U0mx8vQg2N-uYEikC7p7cLDcpNfe8l" class="js-animating-object img-responsive">
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <img src="https://drive.google.com/uc?export=view&id=1ycmR9ZyxkGYPCn4-gF-TSqyrkAIfRh21" class="js-animating-object img-responsive">
+                                    <h2>!Hola {{userinfo.EMPNOM}}!</h2>
+                                    <p class="m-b-30">Es momento de ponernos en pie y necesitamos de tu apoyo para reactivar la economía de nuestro país, en estos tiempos de nuevos retos, hoy más que nunca tenemos que trabajar unidos para activar Caja Piura en beneficio de todos.
+                                    </p>
+                                    <p class="m-b-30">¡Tu talento comercial es la mejor manera de ayudar a nuestros clientes!</p>
+                                    <p class="m-b-30">En las bases de datos que encontraras en el portal podrás gestionar la comunicación con tus prospectos y potenciar tu colocación, tu apoyo es indispensable.
+                                    </p>
+                                    <p class="m-b-30 font-bold">¡Todos somos Caja Piura!</p>
                                 </div>
 
                             </div>
@@ -198,9 +202,9 @@
     mounted() {
     },
     created: function () {
-      console.log("userinfo",this.userinfo);
+      /*console.log("userinfo",this.userinfo);
       console.log("opcmenu",this.opcmenu);
-      this.getData();
+      this.getData();*/
     },
     computed: {
     },
@@ -212,7 +216,7 @@
         window.open('','_self').close();
         //window.close()
       },
-      getData:function() {
+      /*getData:function() {
         $.ajax({
           url: url+"?v=api",
           type: "GET",
@@ -226,7 +230,7 @@
             return console.error(arguments);
           }
         })
-      }
+      },*/
     }
   });
 </script>

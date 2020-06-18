@@ -93,7 +93,10 @@
                                 {{campaniaSelected.TITULO_CAMPANA}}
                             </h2>
                         </div>
-                        <div class="body table-responsive">
+                        <div class="body " v-if="dataPaginada.length== 0">
+                            <h4>No tiene asignado ningún cliente :(</h4>
+                        </div>
+                        <div class="body table-responsive" v-if="dataPaginada.length>0">
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -103,6 +106,7 @@
                                     <th @click="sort('DOCUMENTO')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i> DNI/RUC</th>
                                     <th @click="sort('TELEFONO')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  TELEFONO</th>
                                     <th @click="sort('FULTIMA')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  ULTIMO CONTACTO</th>
+                                    <th @click="sort('FULTIMA')" style="cursor: pointer"><i class="fa fa-sort" aria-hidden="true"></i>  ULTIMA RESPUESTA</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -115,6 +119,7 @@
                                     <td>{{detalle.DOCUMENTO}}</td>
                                     <td>{{detalle.TELEFONO}}</td>
                                     <td>{{detalle.FULTIMA}}</td>
+                                    <td>{{detalle.RULTIMA}}</td>
                                     <td>
                                         <a class="btn bg-orange btn-circle waves-effect waves-circle waves-float" href="#"  data-toggle="modal" data-target="#infoUserModal"  @click="showModal(detalle)" >
                                             <i class="material-icons">create</i>
@@ -132,7 +137,7 @@
 
                 <div class="modal fade" id="infoUserModal" tabindex="-1" role="dialog" style="display: none;">
                     <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
+                        <div class="modal-content" v-if="clienteSelected!=null">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="largeModalLabel">{{clienteSelected.NOMBRECOMPLETO}}</h4>
                             </div>
@@ -265,142 +270,142 @@
                                         </div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane fade" id="messages_with_icon_title">
-                                      <div class="row clearfix">
-                                          <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>TELEFONO:</label>
-                                                      <input type="text" class="form-control" v-model="clienteSelected.TELEFONO"  placeholder="TELEFONO" disabled>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="col-md-4 col-sm-3 col-xs-12 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>ULTIMA LLAMADA:</label>
-                                                      <input type="text" class="form-control" :value="calFULTIMA" disabled>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="col-md-4 col-sm-3 col-xs-12 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>ULTIMA RESPUESTA:</label>
-                                                      <input type="text" class="form-control" :value="calRULTIMA" disabled>
-                                                  </div>
-                                              </div>
-                                          </div>
+                                        <div class="row clearfix">
+                                            <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>TELEFONO:</label>
+                                                        <input type="text" class="form-control" v-model="clienteSelected.TELEFONO"  placeholder="TELEFONO" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-3 col-xs-12 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>ULTIMA LLAMADA:</label>
+                                                        <input type="text" class="form-control" :value="calFULTIMA" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-3 col-xs-12 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>ULTIMA RESPUESTA:</label>
+                                                        <input type="text" class="form-control" :value="calRULTIMA"  disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>1° CONTACTO:</label>
-                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO1" :disabled="clienteSelected.FCONTACTO1!=''" >
-                                                  </div>
-                                              </div>
-                                          </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>1° CONTACTO:</label>
+                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO1" :disabled="clienteSelected.FCONTACTO1!=''" >
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>1° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO1" :disabled="clienteSelected.RCONTACTO1!='' && clienteSelected.RULTIMA!=''" >
-                                                          <option disabled value="">Seleccione una opción</option>
-                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
-                                                      </select>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>2° CONTACTO:</label>
-                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO2" :disabled="clienteSelected.FCONTACTO2!='' && clienteSelected.RULTIMA!=''" >
-                                                  </div>
-                                              </div>
-                                          </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>1° RESPUESTA:</label>
+                                                        <select class="form-control"  v-model="RCONTACTO1" :disabled="clienteSelected.RCONTACTO1!='' && clienteSelected.RULTIMA!=''" >
+                                                            <option disabled value="">Seleccione una opción</option>
+                                                            <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>2° CONTACTO:</label>
+                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO2" :disabled="clienteSelected.FCONTACTO2!='' && clienteSelected.RULTIMA!=''" >
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>2° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO2" :disabled="clienteSelected.RCONTACTO2!='' && clienteSelected.RULTIMA!=''" >
-                                                          <option disabled value="">Seleccione una opción</option>
-                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
-                                                      </select>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>3° CONTACTO:</label>
-                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO3" :disabled="clienteSelected.FCONTACTO3!='' && clienteSelected.RULTIMA!=''" >
-                                                  </div>
-                                              </div>
-                                          </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>2° RESPUESTA:</label>
+                                                        <select class="form-control"  v-model="RCONTACTO2" :disabled="clienteSelected.RCONTACTO2!='' && clienteSelected.RULTIMA!=''" >
+                                                            <option disabled value="">Seleccione una opción</option>
+                                                            <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>3° CONTACTO:</label>
+                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO3" :disabled="clienteSelected.FCONTACTO3!='' && clienteSelected.RULTIMA!=''" >
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>3° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO3" :disabled="clienteSelected.RCONTACTO3!='' && clienteSelected.RULTIMA!=''" >
-                                                          <option disabled value="">Seleccione una opción</option>
-                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
-                                                      </select>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>4° CONTACTO:</label>
-                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO4" :disabled="clienteSelected.FCONTACTO4!='' && clienteSelected.RULTIMA!=''" >
-                                                  </div>
-                                              </div>
-                                          </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>3° RESPUESTA:</label>
+                                                        <select class="form-control"  v-model="RCONTACTO3" :disabled="clienteSelected.RCONTACTO3!='' && clienteSelected.RULTIMA!=''" >
+                                                            <option disabled value="">Seleccione una opción</option>
+                                                            <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>4° CONTACTO:</label>
+                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO4" :disabled="clienteSelected.FCONTACTO4!='' && clienteSelected.RULTIMA!=''" >
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>4° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO4" :disabled="clienteSelected.RCONTACTO4!='' && clienteSelected.RULTIMA!=''" >
-                                                          <option disabled value="">Seleccione una opción</option>
-                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
-                                                      </select>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>5° CONTACTO:</label>
-                                                      <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="clienteSelected.FCONTACTO5" :disabled="clienteSelected.FCONTACTO5!='' && clienteSelected.RULTIMA!=''" >
-                                                  </div>
-                                              </div>
-                                          </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>4° RESPUESTA:</label>
+                                                        <select class="form-control"  v-model="RCONTACTO4" :disabled="clienteSelected.RCONTACTO4!='' && clienteSelected.RULTIMA!=''" >
+                                                            <option disabled value="">Seleccione una opción</option>
+                                                            <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>5° CONTACTO:</label>
+                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO5" :disabled="clienteSelected.FCONTACTO5!='' && clienteSelected.RULTIMA!=''" >
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                          <div class="col-md-3 col-sm-3 col-xs-6 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>5° RESPUESTA:</label>
-                                                      <select class="form-control"  v-model="clienteSelected.RCONTACTO5" :disabled="clienteSelected.RCONTACTO5!='' && clienteSelected.RULTIMA!=''" >
-                                                          <option disabled value="">Seleccione una opción</option>
-                                                          <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
-                                                      </select>
-                                                  </div>
-                                              </div>
-                                          </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-6 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>5° RESPUESTA:</label>
+                                                        <select class="form-control"  v-model="RCONTACTO5" :disabled="clienteSelected.RCONTACTO5!='' && clienteSelected.RULTIMA!=''" >
+                                                            <option disabled value="">Seleccione una opción</option>
+                                                            <option v-for="opc in opcResultadoContacto">{{opc.Resultado_contacto}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                          <div class="col-md-12 col-sm-12 col-xs-12 " >
-                                              <div class="form-group form-float">
-                                                  <div class="form-line">
-                                                      <label>COMENTARIOS: </label>
-                                                      <textarea class="form-control" v-model="clienteSelected.COMENTARIOS"></textarea>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 " >
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label>COMENTARIOS: </label>
+                                                        <textarea class="form-control" v-model="COMENTARIOS"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -412,7 +417,7 @@
                                     <span v-if="process">Enviando</span>
                                     <i class="material-icons" v-if="process">hdr_strong</i>
                                 </button>
-                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" @click="cancelarRegistro">
                                     <i class="material-icons">close</i>
                                     <span >Cerrar</span>
                                 </button>
@@ -445,6 +450,7 @@
         tipo:'' //primary,info,success,warning,danger
       },
       campanias: [],
+      campaniasbk: [],
       opcResultadoContacto:[],
       currentSort:'CODIGOCLIENTE',
       currentSortDir:'desc',
@@ -455,53 +461,19 @@
       dataEspecialFiltrada:[],
       dataNormal:[],
       campaniaSelected:null,
-      clienteSelected:{
-        ACTIVIDAD_ESENCIAL: "",
-        AGENCIA: "",
-        ASESOR: "",
-        AUTORIZA: "",
-        CALIF0: "",
-        CALIF1: "",
-        CAMPANA: "",
-        CODIGOCLIENTE: "",
-        CORREO: "",
-        DEPARTAMENTO: "",
-        DEUDADIRECTA: "",
-        DEUDIRCONREV: "",
-        DIRECCION: "",
-        DIRECCIONPOSTAL: "",
-        DISTRITO: "",
-        DOCUMENTO: "",
-        EDAD: "",
-        EMAIL_USER: "",
-        FCONTACTO1: "",
-        FCONTACTO2: "",
-        FCONTACTO3: "",
-        FCONTACTO4: "",
-        FCONTACTO5: "",
-        COMENTARIOS:"",
-        FECHACT: "",
-        FECNAC: "",
-        FECHA_SEGUIM: "",
-        ID_CAMP: "",
-        LIBRO: "",
-        NOMBRECOMPLETO: "",
-        NROIFI: "",
-        PROVINCIA: "",
-        RCONTACTO1: "",
-        RCONTACTO2: "",
-        RCONTACTO3: "",
-        RCONTACTO4: "",
-        RCONTACTO5: "",
-        REGION: "",
-        RULTIMA: "",
-        RESULTADO_SEGUIM: "",
-        SEXO: "",
-        TELEFONO: "",
-        TIPOCREDITOSBS: "",
-        ZONA: "",
-        FULTIMA:""
-      },
+      clienteSelected:null,
+      FCONTACTO1: "",
+      FCONTACTO2: "",
+      FCONTACTO3: "",
+      FCONTACTO4: "",
+      FCONTACTO5: "",
+      RCONTACTO1: "",
+      RCONTACTO2: "",
+      RCONTACTO3: "",
+      RCONTACTO4: "",
+      RCONTACTO5: "",
+      COMENTARIOS:"",
+      clienteSelectedbk:{},
       process:false
     },
     watch: {
@@ -515,31 +487,31 @@
     computed: {
       calFULTIMA:function(){
         let r = "";
-        if(this.clienteSelected.FCONTACTO5 !== ""){
-          r = this.clienteSelected.FCONTACTO5
-        }else if(this.clienteSelected.FCONTACTO4 !== ""){
-          r = this.clienteSelected.FCONTACTO4
-        }else if(this.clienteSelected.FCONTACTO3 !== ""){
-          r = this.clienteSelected.FCONTACTO3
-        }else if(this.clienteSelected.FCONTACTO2 !== ""){
-          r = this.clienteSelected.FCONTACTO2
-        }else if(this.clienteSelected.FCONTACTO1 !== ""){
-          r = this.clienteSelected.FCONTACTO1;
+        if(this.FCONTACTO5 !== ""){
+          r = this.FCONTACTO5
+        }else if(this.FCONTACTO4 !== ""){
+          r = this.FCONTACTO4
+        }else if(this.FCONTACTO3 !== ""){
+          r = this.FCONTACTO3
+        }else if(this.FCONTACTO2 !== ""){
+          r = this.FCONTACTO2
+        }else if(this.FCONTACTO1 !== ""){
+          r = this.FCONTACTO1;
         }
         return r;
       },
       calRULTIMA:function(){
         let r = "";
-        if(this.clienteSelected.RCONTACTO5 !== ""){
-          r = this.clienteSelected.RCONTACTO5
-        }else if(this.clienteSelected.RCONTACTO4 !== ""){
-          r = this.clienteSelected.RCONTACTO4
-        }else if(this.clienteSelected.RCONTACTO3 !== ""){
-          r = this.clienteSelected.RCONTACTO3
-        }else if(this.clienteSelected.RCONTACTO2 !== ""){
-          r = this.clienteSelected.RCONTACTO2
-        }else if(this.clienteSelected.RCONTACTO1 !== ""){
-          r = this.clienteSelected.RCONTACTO1;
+        if(this.RCONTACTO5 !== ""){
+          r = this.RCONTACTO5
+        }else if(this.RCONTACTO4 !== ""){
+          r = this.RCONTACTO4
+        }else if(this.RCONTACTO3 !== ""){
+          r = this.RCONTACTO3
+        }else if(this.RCONTACTO2 !== ""){
+          r = this.RCONTACTO2
+        }else if(this.RCONTACTO1 !== ""){
+          r = this.RCONTACTO1;
         }
         return r;
       },
@@ -587,15 +559,18 @@
             var response = arguments[0];
             //this.agencias = response.agencia;
             this.campanias = response.campanias;
+            this.campaniasbk = response.campanias;
             this.opcResultadoContacto = response.opcresultcontacto;
             this.cargaCompleta = true;
-            //return console.log(arguments);
+            return console.log(arguments);
           },
           error: function(err) {
-            return console.error(arguments);
+            alert("Se presentó un problema, actualize la página dentro de 1 min. Si el error persiste comuníquese con el área de sistemas");
+            console.error(arguments);
           }
         })
       },
+
       colorAvance:function(arr){
         var clientes = arr.length;
         var contatos = _.sumBy(arr, function(o) { return o.RULTIMA!=''; });
@@ -631,25 +606,93 @@
 
       },
       selectCampania:function(camp) {
-        console.log("Visualizar campania",camp);
+        //console.log("Visualizar campania",camp);
         this.campaniaSelected = camp;
         this.dataEspecialFiltrada = camp.DATA;
       },
       showModal:function(cliente){
         console.log("cliente",cliente);
         this.clienteSelected = cliente;
+        this.FCONTACTO1= cliente.FCONTACTO1;
+        this.FCONTACTO2= cliente.FCONTACTO2;
+        this.FCONTACTO3= cliente.FCONTACTO3;
+        this.FCONTACTO4= cliente.FCONTACTO4;
+        this.FCONTACTO5= cliente.FCONTACTO5;
+        this.RCONTACTO1= cliente.RCONTACTO1;
+        this.RCONTACTO2= cliente.RCONTACTO2;
+        this.RCONTACTO3= cliente.RCONTACTO3;
+        this.RCONTACTO4= cliente.RCONTACTO4;
+        this.RCONTACTO5= cliente.RCONTACTO5;
+        this.COMENTARIOS= cliente.COMENTARIOS;
         //this.clienteSelected.NUMERO_LLAMADAS = this.calNumeroLLamadas(cliente);
+      },
+      cancelarRegistro:function(){
+        this.FCONTACTO1= "";
+        this.FCONTACTO2= "";
+        this.FCONTACTO3= "";
+        this.FCONTACTO4= "";
+        this.FCONTACTO5= "";
+        this.RCONTACTO1= "";
+        this.RCONTACTO2= "";
+        this.RCONTACTO3= "";
+        this.RCONTACTO4= "";
+        this.RCONTACTO5= "";
+        this.COMENTARIOS= "";
       },
       registrarLlamada:function(){
         this.process = true;
         this.clienteSelected.RULTIMA = this.calRULTIMA;
         this.clienteSelected.FULTIMA = this.calFULTIMA;
-        google.script.run.withSuccessHandler(function(result) {
-          console.log("RPTA",result);
+        this.clienteSelected.FCONTACTO1 = this.FCONTACTO1;
+        this.clienteSelected.FCONTACTO2 = this.FCONTACTO2;
+        this.clienteSelected.FCONTACTO3 = this.FCONTACTO3;
+        this.clienteSelected.FCONTACTO4 = this.FCONTACTO4;
+        this.clienteSelected.FCONTACTO5 = this.FCONTACTO5;
+        this.clienteSelected.RCONTACTO1 = this.RCONTACTO1;
+        this.clienteSelected.RCONTACTO2 = this.RCONTACTO2;
+        this.clienteSelected.RCONTACTO3 = this.RCONTACTO3;
+        this.clienteSelected.RCONTACTO4 = this.RCONTACTO4;
+        this.clienteSelected.RCONTACTO5 = this.RCONTACTO5;
+        this.clienteSelected.COMENTARIOS = this.COMENTARIOS;
+
+        //var data = "&data="
+        $.ajax({
+          url: url+'?v=postregistrarLLamada',
+          type: "GET",
+          data:JSON.stringify(this.clienteSelected),
+          headers:{
+            "Content-Type": "application/json"
+          },
+          dataType: "jsonp",
+          crossDomain: true,
+          jsonpCallback: "on_result",
+          context: this,
+          success: function() {
+            var data_resp = arguments[0];
+            this.campanias.forEach((b) => {
+              if(b.ID_CAMPANIA === this.campaniaSelected.ID_CAMPANIA){
+                b.DATA = data_resp
+              }
+            });
+            this.dataEspecialFiltrada = data_resp;
+            this.cancelarRegistro();
+            $('#infoUserModal').modal('toggle');
+            showNotification("alert-success", "Se actualizó correctamente", "bottom", "center", "", "");
+            this.process = false;
+            return console.log(arguments);
+
+          },
+          error: function(err) {
+            alert("Se presentó un problema, actualize la página dentro de 1 min. Si el error persiste comuníquese con el área de sistemas");
+            console.error(arguments);
+          }
+        })
+        /*google.script.run.withSuccessHandler(function(result) {
+          //console.log("RPTA",result);
           this.process = false;
           $('#infoUserModal').modal('toggle');
           showNotification("alert-success", "Se actualizó correctamente", "bottom", "center", "", "");
-        }.bind(this)).registerCall(this.clienteSelected);
+        }.bind(this)).registerCall(this.clienteSelected);*/
 
       },
       ceroIzquierda:function (numero) {
@@ -669,6 +712,12 @@
       },
       setPage:function(n) {
         this.currentPage = n;
+      },
+      redirectMenu:function(opc) {
+        var url = this.url + '?v=' + opc.URL;
+        window.open(url,'_blank');
+        window.open('','_self').close();
+        //window.close()
       },
 
     }

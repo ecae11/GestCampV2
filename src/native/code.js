@@ -129,7 +129,8 @@ function updateRow(ssID, object) {
 }
 
 function getCampanias(id) {
-  const wb = SpreadsheetApp.getActiveSpreadsheet();
+  const wb = SpreadsheetApp.openById('1o8zMFIh_ne-ShpzNSrdH_8n41NvTJLF-pF2vj2qZFdA');
+  // SpreadsheetApp.getActiveSpreadsheet();
   const ss = wb.getSheetByName('Campanias');
   const lastLetterColumn = columnToLetter(ss.getLastColumn());
   const lastRow = ss.getLastRow();
