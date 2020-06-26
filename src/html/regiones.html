@@ -809,7 +809,7 @@
       },
 
       redirectMenu:function(opc) {
-        var url = this.url + '?v=' + opc.URL;
+        var url = opc.HTTP_L + '?v=' + opc.URL;
         window.open(url,'_blank');
         window.open('','_self').close();
         //window.close()

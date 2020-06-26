@@ -10,25 +10,7 @@
 
     <title>Gestor de Campañas</title>
 
-    <!-- Custom fonts for this template-->
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-
-    <!-- Bootstrap Core Css -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Waves Effect Css -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/node-waves/waves.css" rel="stylesheet" />
-
-    <!-- Animation Css -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/animate-css/animate.css" rel="stylesheet" />
-
-    <!-- Custom Css -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/css/style.css" rel="stylesheet">
-
-    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
-    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/css/themes/all-themes.css" rel="stylesheet" />
+    <?!= include("page-css"); ?>
 </head>
 
 <body class="theme-indigo">
@@ -69,55 +51,7 @@
 </nav>
 <!-- #Top Bar -->
 <div id="app">
-    <section>
-        <!-- Left Sidebar -->
-        <aside id="leftsidebar" class="sidebar">
-            <!-- User Info -->
-            <div class="user-info">
-                <div class="image">
-                    <img src="https://gurayyarar.github.io/AdminBSBMaterialDesign/images/user.png" width="48" height="48" alt="User" />
-                </div>
-                <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userinfo.EMPNOM}} {{userinfo.EMPAPP}}</div>
-                    <div class="email">{{userinfo.CORREO}}</div>
-                    <div class="btn-group user-helper-dropdown">
-                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- #User Info -->
-            <!-- Menu -->
-            <div class="menu">
-                <ul class="list">
-                    <li class="header">MENÚ</li>
-                    <li v-for="opc in opcmenu ">
-                        <a href="#" @click="redirectMenu(opc)" class="menu-toggle">
-                            <i class="material-icons">{{opc.ICON}}</i>
-                            <span>{{opc.OPCMENU}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <!-- #Menu -->
-            <!-- Footer -->
-            <div class="legal">
-                <div class="copyright">
-                    &copy; 2020 <a href="javascript:void(0);"> Caja Piura</a>.
-                </div>
-                <div class="version">
-                    <b>Version: </b> 1.0.5
-                </div>
-            </div>
-            <!-- #Footer -->
-        </aside>
-        <!-- #END# Left Sidebar -->
-        <!-- Right Sidebar -->
-
-        <!-- #END# Right Sidebar -->
-    </section>
+    <?!= include("sidebar"); ?>
 
     <section class="content">
         <div class="container-fluid">
@@ -144,12 +78,13 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <h2>!Hola {{userinfo.EMPNOM}}!</h2>
-                                    <p class="m-b-30">Es momento de ponernos en pie y necesitamos de tu apoyo para reactivar la economía de nuestro país, en estos tiempos de nuevos retos, hoy más que nunca tenemos que trabajar unidos para activar Caja Piura en beneficio de todos.
+                                    <p class="m-b-10">Es momento de ponernos en pie y necesitamos de tu apoyo para reactivar la economía de nuestro país, en estos tiempos de nuevos retos, hoy más que nunca tenemos que trabajar unidos para activar Caja Piura en beneficio de todos.
                                     </p>
-                                    <p class="m-b-30">¡Tu talento comercial es la mejor manera de ayudar a nuestros clientes!</p>
-                                    <p class="m-b-30">En las bases de datos que encontraras en el portal podrás gestionar la comunicación con tus prospectos y potenciar tu colocación, tu apoyo es indispensable.
+                                    <p class="m-b-10">¡Tu talento comercial es la mejor manera de ayudar a nuestros clientes!</p>
+                                    <p class="m-b-10">En las bases de datos que encontraras en el portal podrás gestionar la comunicación con tus prospectos y potenciar tu colocación, tu apoyo es indispensable.
                                     </p>
-                                    <p class="m-b-30 font-bold">¡Todos somos Caja Piura!</p>
+                                    <p class="m-b-10 font-bold col-teal">Recuerda! Sólo debes abrir la app en el navegador chrome y sólo puedes haber iniciado sesión con tu correo insitutucional.</p>
+                                    <p class="font-bold">¡Todos somos Caja Piura!</p>
                                 </div>
 
                             </div>
@@ -163,27 +98,7 @@
     </section>
 </div>
 
-
-<!-- Jquery Core Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Core Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap/js/bootstrap.js"></script>
-
-<!-- Select Plugin Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap-select/js/bootstrap-select.js"></script>
-
-<!-- Slimscroll Plugin Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
-
-<!-- Waves Effect Plugin Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/node-waves/waves.js"></script>
-
-<!-- Custom Js -->
-<script src="https://gurayyarar.github.io/AdminBSBMaterialDesign/js/admin.js"></script>
-
-<script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<?!= include("page-js"); ?>
 
 <script>
   //
@@ -211,7 +126,7 @@
 
     methods: {
       redirectMenu:function(opc) {
-        var url = this.url + '?v=' + opc.URL;
+        var url = opc.HTTP_L + '?v=' + opc.URL;
         window.open(url,'_blank');
         window.open('','_self').close();
         //window.close()

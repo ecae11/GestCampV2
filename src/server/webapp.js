@@ -10,6 +10,8 @@ import {
   getCampById,
   getRegionFilter,
   getUsuarios,
+  // eslint-disable-next-line import/named
+  lvlAccesoOpcMenu,
   todoDataCampanias,
 } from '../google-apps-script/datafilter';
 // eslint-disable-next-line import/named
@@ -34,26 +36,47 @@ const render = (file, argsObject) => {
 
 const universalObject = () => {
   const objs = {};
-  objs.userinfo = JSON.stringify(getInfoUser());
-  objs.opcmenu = JSON.stringify(getOpcMenu());
+  objs.userinfo = getInfoUser();
+  objs.opcmenu = getOpcMenu();
+  return objs;
+};
+const convertJson = (obj) => {
+  const objs = {};
+  Object.keys(obj).forEach((e) => {
+    objs[e] = JSON.stringify(obj[e]);
+  });
   return objs;
 };
 
 const loadIndex = () => {
-  const objs = universalObject();
+  let objs = universalObject();
+  objs = convertJson(objs);
   return render('index', objs);
 };
 const loadCampanias = () => {
-  const objs = universalObject();
-  return render('campanias', objs);
+  let objs = universalObject();
+  // eslint-disable-next-line no-empty
+  if (lvlAccesoOpcMenu(objs.opcmenu, 'campanias')) {
+    objs = convertJson(objs);
+    return render('campanias', objs);
+  }
+  return render('403', objs);
 };
 const loadViewAdminAgencia = () => {
-  const objs = universalObject();
-  return render('agencias', objs);
+  let objs = universalObject();
+  if (lvlAccesoOpcMenu(objs.opcmenu, 'agencias')) {
+    objs = convertJson(objs);
+    return render('agencias', objs);
+  }
+  return render('403', objs);
 };
 const loadViewGerenteRegional = () => {
-  const objs = universalObject();
-  return render('regiones', objs);
+  let objs = universalObject();
+  if (lvlAccesoOpcMenu(objs.opcmenu, 'region')) {
+    objs = convertJson(objs);
+    return render('regiones', objs);
+  }
+  return render('403', objs);
 };
 // eslint-disable-next-line no-unused-vars
 const getOAuthToken1 = () => {
@@ -132,7 +155,7 @@ const doGet = (e) => {
     if (e.parameters.v.includes('postregistrarLLamada')) return apiRegistrarLLamada(e.parameters);
     return Route[e.parameters.v]();
   }
-  return render('home');
+  return render('404');
 
   /* let view = 'home';
   if (e.parameters.v !== null) {

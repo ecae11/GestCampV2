@@ -74,7 +74,7 @@
                     </div>
                     <p>Cargando...</p>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" v-for="camp in campanias" v-if = "cargaCompleta && camp.STATUS == '1'">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" v-for="camp in campanias" v-if = "cargaCompleta && camp.STATUS == '1' && camp.DATA.length>0">
                     <div class="info-box hover-zoom-effect" style="cursor: pointer" @click="selectCampania(camp)">
                         <div class="icon bg-indigo">
                             <i class="material-icons">face</i>
@@ -83,6 +83,11 @@
                             <div class="text font-bold">{{camp.TITULO_CAMPANA}}</div>
                             <div :class="colorAvance(camp.DATA)">{{calcularAvance(camp.DATA)}}%</div>
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" v-if = "cargaCompleta && totalClientes(campanias)==0">
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>No tiene clientes asignados a ninguna campaña :(</strong> </div>
                     </div>
                 </div>
 
@@ -300,7 +305,7 @@
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <label>1° CONTACTO:</label>
-                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO1" :disabled="clienteSelected.FCONTACTO1!=''" >
+                                                        <input type="date" class="form-control"  v-model="FCONTACTO1" :disabled="clienteSelected.FCONTACTO1!=''" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -320,7 +325,7 @@
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <label>2° CONTACTO:</label>
-                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO2" :disabled="clienteSelected.FCONTACTO2!='' && clienteSelected.RULTIMA!=''" >
+                                                        <input type="date" class="form-control" :min="calcularFechaMinima(clienteSelected.FULTIMA)" v-model="FCONTACTO2" :disabled="clienteSelected.FCONTACTO2!='' && clienteSelected.RULTIMA!=''" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -340,7 +345,7 @@
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <label>3° CONTACTO:</label>
-                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO3" :disabled="clienteSelected.FCONTACTO3!='' && clienteSelected.RULTIMA!=''" >
+                                                        <input type="date" class="form-control" :min="calcularFechaMinima(clienteSelected.FULTIMA)" v-model="FCONTACTO3" :disabled="clienteSelected.FCONTACTO3!='' && clienteSelected.RULTIMA!=''" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -360,7 +365,7 @@
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <label>4° CONTACTO:</label>
-                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO4" :disabled="clienteSelected.FCONTACTO4!='' && clienteSelected.RULTIMA!=''" >
+                                                        <input type="date" class="form-control" :min="calcularFechaMinima(clienteSelected.FULTIMA)" v-model="FCONTACTO4" :disabled="clienteSelected.FCONTACTO4!='' && clienteSelected.RULTIMA!=''" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -380,7 +385,7 @@
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <label>5° CONTACTO:</label>
-                                                        <input type="date" class="form-control" :min="clienteSelected.FULTIMA" v-model="FCONTACTO5" :disabled="clienteSelected.FCONTACTO5!='' && clienteSelected.RULTIMA!=''" >
+                                                        <input type="date" class="form-control" :min="calcularFechaMinima(clienteSelected.FULTIMA)" v-model="FCONTACTO5" :disabled="clienteSelected.FCONTACTO5!='' && clienteSelected.RULTIMA!=''" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -474,7 +479,8 @@
       RCONTACTO5: "",
       COMENTARIOS:"",
       clienteSelectedbk:{},
-      process:false
+      process:false,
+
     },
     watch: {
     },
@@ -560,7 +566,7 @@
             //this.agencias = response.agencia;
             this.campanias = response.campanias;
             this.campaniasbk = response.campanias;
-            this.opcResultadoContacto = response.opcresultcontacto;
+            this.opcResultadoContacto = _.orderBy(response.opcresultcontacto,['Orden'],['asc']);
             this.cargaCompleta = true;
             return console.log(arguments);
           },
@@ -570,7 +576,14 @@
           }
         })
       },
-
+      totalClientes:function(campanias){
+        let total = 0;
+        campanias.forEach((e) => {
+          total = e.DATA.length;
+        });
+        console.log("total",total);
+        return total;
+      },
       colorAvance:function(arr){
         var clientes = arr.length;
         var contatos = _.sumBy(arr, function(o) { return o.RULTIMA!=''; });
@@ -582,6 +595,9 @@
           clase = "number col-orange";
         }
         return clase
+      },
+      calcularFechaMinima:function(fecha){
+        return (fecha == '')? new Date().toJSON().slice(0,10):fecha;
       },
       calcularAvance:function(arr){
         var clientes = arr.length;
@@ -714,7 +730,7 @@
         this.currentPage = n;
       },
       redirectMenu:function(opc) {
-        var url = this.url + '?v=' + opc.URL;
+        var url = opc.HTTP_L + '?v=' + opc.URL;
         window.open(url,'_blank');
         window.open('','_self').close();
         //window.close()

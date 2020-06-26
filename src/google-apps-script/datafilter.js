@@ -67,6 +67,20 @@ const getDataCampaignForEmail = (ssID) => {
   return arr;
 };
 
+const lvlAccesoOpcMenu = (opcMenu, menu) => {
+  Logger.log('---opcMenu----');
+  Logger.log(opcMenu);
+  Logger.log(menu);
+  let autorizado = false;
+  // eslint-disable-next-line no-unused-vars
+  opcMenu.forEach((e) => {
+    if (e.URL.trim().toUpperCase() === menu.trim().toUpperCase()) {
+      autorizado = true;
+    }
+  });
+  return autorizado;
+};
+
 const getPermisos = (infoUser) => {
   const arrPermisos = [];
   const nivelAccesos = dataToJson(getDataForSheetName(ssIdConfig(), 'NivelAcceso'));
@@ -99,10 +113,13 @@ const getDataCampLvlAccess = (ssID, sheet, arrPermisos) => {
   // Logger.log(infoUser.PUESTO.CODPUE);
   const dataCamp = getDataForSheetName(ssID, sheet);
   let data = dataToJson(dataCamp, '', '');
-  arrPermisos.forEach((obj) => {
-    data = functionZ(data, obj); // funcionX(data, obj);
-  });
-  return data;
+  if (arrPermisos.length > 0) {
+    arrPermisos.forEach((obj) => {
+      data = functionZ(data, obj); // funcionX(data, obj);
+    });
+    return data;
+  }
+  return [];
 };
 
 const todoDataCampanias = () => {
@@ -177,4 +194,5 @@ export {
   getCampanias,
   getUsuarios,
   getCampById,
+  lvlAccesoOpcMenu,
 };
